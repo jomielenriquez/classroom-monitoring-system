@@ -1,40 +1,54 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify, request
 from pyfingerprint.pyfingerprint import PyFingerprint
 
 app = Flask(__name__)
-f = PyFingerprint('/dev/ttyUSB0', 57600, 0xFFFFFFFF, 0x00000000)
+
+# Initialize the fingerprint sensor
+try:
+    sensor = PyFingerprint('/dev/ttyUSB0', 57600, 0xFFFFFFFF, 0x00000000)
+except Exception as e:
+    print("Fingerprint sensor could not be initialized!")
+    print("Exception message: " + str(e))
+    sensor = None
 
 @app.route('/enroll', methods=['POST'])
 def enroll():
-    userid = request.args.get('userid')
-    if not userid:
-        return jsonify({'error': 'userid required'}), 400
-
     try:
+        user_id = request.json.get('userId')
+        if not user_id:
+            return jsonify({'error': 'userId is required'}), 400
+
         # Wait for finger
-        while f.readImage() == False:
+        print("Waiting for finger...")
+        while not sensor.readImage():
             pass
-        f.convertImage(0x01)
 
-        result = f.searchTemplate()
-        if result[0] >= 0:
-            return jsonify({'error': 'Finger already enrolled'}), 400
+        sensor.convertImage(0x01)
 
-        # Wait for same finger again
-        while f.readImage() == True:
-            pass
-        while f.readImage() == False:
-            pass
-        f.convertImage(0x02)
+        # Check if already enrolled
+        result = sensor.searchTemplate()
+        position_number = result[0]
+        if position_number >= 0:
+            return jsonify(
+                {
+                    'isSuccessful': False, 
+                    'message': f'Fingerprint already enrolled at position {position_number}', 
+                    'position': None, 
+                    'userId': None
+                }
+            ), 200
 
-        if f.compareCharacteristics() == 0:
-            return jsonify({'error': 'Fingers do not match'}), 400
-
-        f.createTemplate()
-        positionNumber = f.storeTemplate()
-
-        # Respond with slot number
-        return jsonify({'success': True, 'userid': userid, 'pageid': positionNumber})
+        # Create template
+        sensor.createTemplate()
+        position_number = sensor.storeTemplate()
+        return jsonify(
+            {
+                'isSuccessful': True, 
+                'message': 'Enrolled successfully', 
+                'position': position_number, 
+                'userId': user_id
+            }
+        )
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -42,20 +56,21 @@ def enroll():
 @app.route('/verify', methods=['POST'])
 def verify():
     try:
-        while f.readImage() == False:
+        print("Waiting for finger...")
+        while not sensor.readImage():
             pass
-        f.convertImage(0x01)
 
-        result = f.searchTemplate()
-        positionNumber = result[0]
+        sensor.convertImage(0x01)
+        result = sensor.searchTemplate()
+        position_number = result[0]
 
-        if positionNumber == -1:
-            return jsonify({'match': False})
-
-        return jsonify({'match': True, 'pageid': positionNumber})
+        if position_number == -1:
+            return jsonify({'message': 'No match found'})
+        else:
+            return jsonify({'message': f'Match found at position {position_number}'})
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001)
+    app.run()  # Expose to network
