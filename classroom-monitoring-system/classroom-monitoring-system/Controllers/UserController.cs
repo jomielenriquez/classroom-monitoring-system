@@ -35,7 +35,7 @@ namespace classroom_monitoring_system.Controllers
             var pageModel = new PageModel();
             pageModel.Search = JsonConvert.SerializeObject(userSearchModel);
 
-            return RedirectToAction("ListScreen", "User", pageModel);
+            return RedirectToAction("UserListScreen", "User", pageModel);
         }
 
         [Authorize(Roles = "Admin")]
@@ -61,6 +61,24 @@ namespace classroom_monitoring_system.Controllers
             }
 
             return View(editScreen);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult Save(User user)
+        {
+            var result = _userService.SaveUser(user);
+            if (!result.IsSuccess)
+            {
+                var editScreen = new EditScreenModel<User>()
+                {
+                    Data = result.Data,
+                    UserRoles = _userRoleRepository.GetAll().Cast<object>().ToList(),
+                    ErrorMessages = result.Errors ?? new List<string> { }
+                };
+                return View("UserEdit", editScreen);
+            }
+
+            return RedirectToAction("UserListScreen", "User");
         }
     }
 }

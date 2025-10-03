@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+	<AssemblyName>classroom_monitoring_system</AssemblyName>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <RootNamespace>classroom_monitoring_system</RootNamespace>
     <UserSecretsId>74923cf5-483e-4c52-b66d-ce95d542b5c5</UserSecretsId>
   </PropertyGroup>
 
@@ -17,4 +17,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TagHelpers\" />
+  </ItemGroup>
 </Project>

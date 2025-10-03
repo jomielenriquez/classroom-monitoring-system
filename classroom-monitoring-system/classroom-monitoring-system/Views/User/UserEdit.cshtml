@@ -1,0 +1,103 @@
+﻿@using classroom_monitoring_system.Models
+@using System.Security.Claims
+@model EditScreenModel<User>
+@{
+    ViewData["Title"] = "User Edit Screen";
+}
+@if (Model.ErrorMessages != null)
+{
+    <br />
+    <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div>
+            @foreach (var error in Model.ErrorMessages)
+            {
+                <div>@error</div>
+            }
+        </div>
+    </div>
+}
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
+<style>
+    #map {
+        height: 400px;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+</style>
+
+<div class="card mb-3">
+    <div class="card-header">User</div>
+    <div class="card-body">
+        <Custom:Form id="UserAccount"
+                     submit-tag="Save"
+                     controller="User"
+                     action="Save"
+                     cancel-redirect="/User/ListScreen">
+            <Custom:TextBox id="UserId"
+                            label="UserId"
+                            type="text"
+                            value="@Model.Data.UserId"
+                            is-hidden="true"
+                            placeholder="">
+            </Custom:TextBox>
+            <Custom:TextBox id="FirstName"
+                            label="First Name"
+                            type="text"
+                            value="@Model.Data.FirstName"
+                            placeholder="Enter First Name"
+                            is-required="true">
+            </Custom:TextBox>
+            <Custom:TextBox id="LastName"
+                            label="Last Name"
+                            type="text"
+                            value="@Model.Data.LastName"
+                            placeholder="Enter Last Name"
+                            is-required="true">
+            </Custom:TextBox>
+            <Custom:TextBox id="Email"
+                            label="Email"
+                            type="email"
+                            value="@Model.Data.Email"
+                            placeholder="Enter email"
+                            is-required="true">
+            </Custom:TextBox>
+
+            <Custom:TextBox id="UserName"
+                            label="UserName"
+                            type="text"
+                            value="@Model.Data.UserName"
+                            placeholder="Enter username"
+                            is-required="true">
+            </Custom:TextBox>
+
+            @{
+                var userId = User.Claims.FirstOrDefault(c => c.Type == "Id")?.Value;
+                if ((!string.IsNullOrEmpty(userId) && new Guid(userId) == Model.Data.UserId) || Model.Data.UserId == Guid.Empty)
+                {
+
+                    <Custom:TextBox id="Password"
+                                    label="Password"
+                                    type="password"
+                                    value=""
+                                    placeholder="Enter Password"
+                                    is-helper-enabled="true"
+                                    helper-message="Enter a password to update, or leave it blank to skip.">
+                    </Custom:TextBox>
+                }
+            }
+            <Custom:Dropdown items="@Model.UserRoles"
+                             id="UserRoleId"
+                             label="UserRole"
+                             key-property="UserRoleId"
+                             value-property="RoleName"
+                             selected-value="@Model.Data.UserRoleId"
+                             is-required="true">
+            </Custom:Dropdown>
+        </Custom:Form>
+    </div>
+</div>
