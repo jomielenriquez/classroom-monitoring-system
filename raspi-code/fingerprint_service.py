@@ -33,7 +33,7 @@ def enroll():
                 {
                     'isSuccessful': False, 
                     'message': f'Fingerprint already enrolled at position {position_number}', 
-                    'position': None, 
+                    'position': position_number, 
                     'userId': None
                 }
             ), 200
