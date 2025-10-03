@@ -1,0 +1,52 @@
+﻿@model classroom_monitoring_system.Models.User
+@{
+    ViewData["Title"] = "Login Page";
+}
+<style>
+    .card-body h3 {
+        text-align: center;
+    }
+
+    .card {
+        width: 300px;
+        margin-top: 10px;
+    }
+</style>
+<div>
+    @* <img src="~/image/icon.png" class="justify-content-center container bs-component container d-flex" style="width:140px;" /> *@
+    <div class="well bs-component container d-flex justify-content-center">
+        <form method="post" asp-action="Login">
+            <div class="card" style="border-top: 5px solid green">
+                <div class="card-body">
+
+                    <h3>Login</h3>
+                    <hr />
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label">User Name</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="User Name" asp-for="@Model.UserName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success"><i class="fa-solid fa-lock-open"></i> Login</button>
+                    </div>
+                    <hr />
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+            {
+                <br />
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <div>
+                        <div>@ViewBag.ErrorMessage</div>
+                    </div>
+                </div>
+            }
+        </form>
+    </div>
+</div>

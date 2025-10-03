@@ -19,5 +19,7 @@ public partial class User
 
     public DateTime CreatedDate { get; set; }
 
+    public string Email { get; set; } = null!;
+
     public virtual UserRole UserRole { get; set; } = null!;
 }
