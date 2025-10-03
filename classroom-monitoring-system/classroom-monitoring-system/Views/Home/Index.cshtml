@@ -6,12 +6,12 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
-<button onclick="enrollFingerprint('user123')">Enroll Fingerprint</button>
+<button onclick="enrollFingerprint('user123')" class="btn btn-primary">Enroll Fingerprint</button>
 
 <script>
     async function enrollFingerprint(userId) {
         try {
-            const response = await fetch("http://192.168.1.56/enroll", {
+            const response = await fetch("http://localhost:5000/enroll", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

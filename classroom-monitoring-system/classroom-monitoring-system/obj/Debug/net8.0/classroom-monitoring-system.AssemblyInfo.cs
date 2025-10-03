@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("classroom-monitoring-system")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3b1258b6f21f9d5b549f2baf49ca97fd5a0566de")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9600c3f17e6985b3417ecae801e3fa9dee3eb787")]
 [assembly: System.Reflection.AssemblyProductAttribute("classroom-monitoring-system")]
 [assembly: System.Reflection.AssemblyTitleAttribute("classroom-monitoring-system")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
