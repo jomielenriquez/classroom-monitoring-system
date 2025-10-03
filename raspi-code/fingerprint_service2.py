@@ -4,7 +4,12 @@ from pyfingerprint.pyfingerprint import PyFingerprint
 app = Flask(__name__)
 
 # Initialize the fingerprint sensor
-sensor = PyFingerprint('/dev/ttyUSB0', 57600, 0xFFFFFFFF, 0x00000000)
+try:
+    sensor = PyFingerprint('/dev/ttyUSB0', 57600, 0xFFFFFFFF, 0x00000000)
+except Exception as e:
+    print("Fingerprint sensor could not be initialized!")
+    print("Exception message: " + str(e))
+    sensor = None
 
 @app.route('/enroll', methods=['POST'])
 def enroll():
@@ -24,12 +29,26 @@ def enroll():
         result = sensor.searchTemplate()
         position_number = result[0]
         if position_number >= 0:
-            return jsonify({'message': f'Fingerprint already enrolled at position {position_number}'}), 200
+            return jsonify(
+                {
+                    'isSuccessful': False, 
+                    'message': f'Fingerprint already enrolled at position {position_number}', 
+                    'position': None, 
+                    'userId': None
+                }
+            ), 200
 
         # Create template
         sensor.createTemplate()
         position_number = sensor.storeTemplate()
-        return jsonify({'message': 'Enrolled successfully', 'position': position_number, 'userId': user_id})
+        return jsonify(
+            {
+                'isSuccessful': True, 
+                'message': 'Enrolled successfully', 
+                'position': position_number, 
+                'userId': user_id
+            }
+        )
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -54,4 +73,4 @@ def verify():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)  # Expose to network
+    app.run()  # Expose to network
