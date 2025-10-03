@@ -3,6 +3,10 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Build results
+bin/
+obj/
+
 # User-specific files
 *.rsuser
 *.suo
@@ -209,6 +213,10 @@ PublishScripts/
 # Microsoft Azure Build Output
 csx/
 *.build.csdef
+
+# Build results
+bin/
+obj/
 
 # Microsoft Azure Emulator
 ecf/
