@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace classroom_monitoring_system.Models;
+
+public partial class User
+{
+    public Guid UserId { get; set; }
+
+    public string FirstName { get; set; } = null!;
+
+    public string LastName { get; set; } = null!;
+
+    public string UserName { get; set; } = null!;
+
+    public string Password { get; set; } = null!;
+
+    public Guid UserRoleId { get; set; }
+
+    public DateTime CreatedDate { get; set; }
+
+    public virtual UserRole UserRole { get; set; } = null!;
+}

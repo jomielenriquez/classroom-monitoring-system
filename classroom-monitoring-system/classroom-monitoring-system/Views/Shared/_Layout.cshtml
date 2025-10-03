@@ -3,13 +3,47 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - classroom_monitoring_system</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@fortawesome/fontawesome-free@@6.7.2/css/fontawesome.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@fortawesome/fontawesome-free@@6.7.2/css/brands.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@fortawesome/fontawesome-free@@6.7.2/css/solid.min.css" />
+    <title>@ViewData["Title"] - Classroom Monitoring System</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/classroom_monitoring_system.styles.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <style>
+        body {
+          margin: 0;
+          padding: 0;
+        }
+        .sidebar {
+          height: 100vh; /* full height */
+          width: 220px;  /* adjust sidebar width */
+          position: fixed;
+          top: 0;
+          left: 0;
+          background-color: #343a40; /* dark background */
+          padding-top: 1rem;
+        }
+        .sidebar .nav-link {
+          color: #ddd;
+        }
+        .sidebar .nav-link.active {
+          background-color: #495057;
+          color: #fff;
+        }
+        .content {
+          margin-left: 220px; /* same as sidebar width */
+          padding: 20px;
+        }
+    </style>
 </head>
 <body>
-    <header>
+    @* <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">classroom_monitoring_system</a>
@@ -29,18 +63,50 @@
                 </div>
             </div>
         </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    </header> *@
+    <!-- Sidebar -->
+    <nav class="sidebar d-flex flex-column p-3">
+        <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+            <span class="fs-4">MyApp</span>
+        </a>
+        <hr>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a href="#" class="nav-link active">Dashboard</a>
+            </li>
+            <li>
+                <a href="#" class="nav-link">Orders</a>
+            </li>
+            <li>
+                <a href="#" class="nav-link">Products</a>
+            </li>
+            <li>
+                <a href="#" class="nav-link">Customers</a>
+            </li>
+            <li>
+                <a href="#" class="nav-link">Reports</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="content">
+        <h1>Welcome!</h1>
+        <p>This is your main content area. The navbar is fixed on the left.</p>
+
+        @RenderBody()
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2025 - classroom_monitoring_system - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - classroom_monitoring_system - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    @* <div class="container">
+        <main role="main" class="pb-3">
+        </main>
+    </div> *@
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
