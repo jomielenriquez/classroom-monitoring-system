@@ -35,11 +35,11 @@ namespace classroom_monitoring_system.TagHelpers
 
             if (!string.IsNullOrEmpty(SubmitTag) && DisplaySubmit)
             {
-                output.Content.AppendHtml("<div class=\"SysCoreTextBoxDivClass\"><button type=\"submit\" class=\"btn btn-primary mt-2 mb-2 me-2\"><i class=\"fa-solid " + SubmitIcon + "\"></i> " + (SubmitTag ?? "Submit") + "</button>");
+                output.Content.AppendHtml("<div class=\"SysCoreTextBoxDivClass\"><button type=\"submit\" class=\"btn btn-danger mt-2 mb-2 me-2\"><i class=\"fa-solid " + SubmitIcon + "\"></i> " + (SubmitTag ?? "Submit") + "</button>");
             }
             if (!string.IsNullOrEmpty(CancelRedirect))
             {
-                output.Content.AppendHtml("<a href=\"" + CancelRedirect + "\" class=\"btn btn-danger mt-2 mb-2\"><i class=\"fa-solid fa-xmark\"></i> Cancel</a></div>");
+                output.Content.AppendHtml("<a href=\"" + CancelRedirect + "\" class=\"btn btn-secondary mt-2 mb-2\"><i class=\"fa-solid fa-xmark\"></i> Cancel</a></div>");
             }
             output.Content.AppendHtml("</fieldset></form>");
         }

@@ -8,14 +8,7 @@
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
 
-@foreach(var user in Model)
-{
-    <div>
-        <h3>@user.FirstName @user.LastName</h3>
-    </div>
-}
-
-<button onclick="enrollFingerprint('user123')" class="btn btn-primary">Enroll Fingerprint</button>
+@* <button onclick="enrollFingerprint('user123')" class="btn btn-primary">Enroll Fingerprint</button> *@
 
 <script>
     async function enrollFingerprint(userId) {
