@@ -1,0 +1,78 @@
+﻿@using classroom_monitoring_system.Models
+@using System.Security.Claims
+@model EditScreenModel<RoomSchedule>
+@{
+    ViewData["Title"] = "Room Schedule Edit Screen";
+}
+@if (Model.ErrorMessages != null)
+{
+    <br />
+    <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div>
+            @foreach (var error in Model.ErrorMessages)
+            {
+                <div>@error</div>
+            }
+        </div>
+    </div>
+}
+
+<div class="card mb-3">
+    <div class="card-header">Room Schedule</div>
+    <div class="card-body">
+        <Custom:Form id="RoomSchedule"
+                     submit-tag="Save"
+                     controller="RoomSchedule"
+                     action="Save"
+                     cancel-redirect="/RoomSchedule/RoomScheduleListScreen">
+            <Custom:TextBox id="RoomScheduleId"
+                            label="RoomScheduleId"
+                            type="text"
+                            value="@Model.Data.RoomScheduleId"
+                            is-hidden="true"
+                            placeholder="">
+            </Custom:TextBox>
+            <Custom:Dropdown items="@Model.Users"
+                             id="ProfessorUserId"
+                             label="Professor"
+                             key-property="UserId"
+                             value-property="FullName"
+                             selected-value="@Model.Data.ProfessorUserId"
+                             is-required="true">
+            </Custom:Dropdown>
+            <Custom:Dropdown items="@Model.Room"
+                             id="RoomId"
+                             label="Room"
+                             key-property="RoomId"
+                             value-property="RoomCode"
+                             selected-value="@Model.Data.RoomId"
+                             is-required="true">
+            </Custom:Dropdown>
+            <Custom:TextBox id="DateOfUse"
+                            label="Date"
+                            type="date"
+                            value="@Model.Data.DateOfUse.ToString("yyyy-MM-dd")"
+                            is-required="true">
+            </Custom:TextBox>
+            <Custom:TextBox id="StartTime"
+                            label="Start Time"
+                            type="time"
+                            value="@Model.Data.StartTime.ToString("HH:mm")"
+                            is-required="true">
+            </Custom:TextBox>
+            <Custom:TextBox id="EndTime"
+                            label="End time"
+                            type="time"
+                            value="@Model.Data.EndTime.ToString("HH:mm")"
+                            placeholder="Enter code"
+                            is-required="true">
+            </Custom:TextBox>
+            <Custom:TextArea id="Note"
+                             label="Note"
+                             type="text"
+                             value="@Model.Data.Note">
+            </Custom:TextArea>
+        </Custom:Form>
+    </div>
+</div>

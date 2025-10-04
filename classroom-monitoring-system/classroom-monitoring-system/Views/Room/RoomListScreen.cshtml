@@ -5,6 +5,7 @@
 }
 <div class="card">
     <div class="card-body">
+
         <Custom:ActionItems caption="Rooms"
                             template="Default"
                             id="RoomID"
@@ -13,7 +14,9 @@
                             delete-action="Delete"
                             edit-action="RoomEdit">
         </Custom:ActionItems>
-
+        <div class="mb-3">
+            <a asp-controller="RoomType" asp-action="RoomTypeListScreen" class="btn btn-link btn-sm"><i class="fa-solid fa-tag"></i> Room Types</a>
+        </div>
         <Custom:SearchForm id="RoomSearchForm"
                            controller="Room"
                            action="RoomSearch">

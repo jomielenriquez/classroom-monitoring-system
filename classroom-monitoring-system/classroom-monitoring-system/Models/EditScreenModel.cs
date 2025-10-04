@@ -9,6 +9,8 @@
         public List<object> FrequencyType { get; set; }
         public List<string> ErrorMessages { get; set; }
         public List<object> RoomType { get; set; }
+        public List<object> Room { get; set; }
+        public List<object> Professor { get; set; }
         public List<User> ListOfUsers { get; set; }
     }
 }

@@ -53,6 +53,9 @@ public partial class MonitorDbContext : DbContext
             entity.ToTable("RoomSchedule");
 
             entity.Property(e => e.RoomScheduleId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.CreatedDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
 
             entity.HasOne(d => d.ProfessorUser).WithMany(p => p.RoomSchedules)
                 .HasForeignKey(d => d.ProfessorUserId)

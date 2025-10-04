@@ -64,6 +64,11 @@ body {
         .sidebar + .content {
             margin-left: 0px;
         }
+
+    .card-body, .card {
+        border-radius: 5px !important;
+        padding: 7px !important;
+    }
 }
 
 body {

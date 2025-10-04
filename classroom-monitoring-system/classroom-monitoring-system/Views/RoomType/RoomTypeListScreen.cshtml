@@ -13,7 +13,9 @@
                             delete-action="Delete"
                             edit-action="RoomTypeEdit">
         </Custom:ActionItems>
-
+        <div class="mb-3">
+            <a asp-controller="Room" asp-action="RoomListScreen" class="btn btn-link btn-sm"><i class="fa-solid fa-school-flag"></i> Rooms</a>
+        </div>
         <Custom:SearchForm id="RoomTypeSearchForm"
                            controller="RoomType"
                            action="RoomTypeSearch">

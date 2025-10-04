@@ -99,6 +99,16 @@ namespace classroom_monitoring_system.Repository
             result.DeleteCount = 0;
             if (userIds != null && userIds.Length > 0)
             {
+                foreach(var userId in userIds)
+                {
+                    var user = _userRepository.GetByConditionAndIncludes(x => x.UserId == userId, "UserRole").FirstOrDefault();
+                    if(user.UserRole.RoleName.ToLower() == "admin")
+                    {
+                        result.IsSuccess = false;
+                        result.Message = "Admin users cannot be deleted.";
+                        return result;
+                    }
+                }
                 int deletedCount = _userRepository.DeleteWithIds(userIds, "UserId");
                 result.DeleteCount = deletedCount;
                 result.Message = $"{deletedCount} user(s) deleted successfully.";

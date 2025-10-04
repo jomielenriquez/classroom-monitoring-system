@@ -17,7 +17,9 @@ public partial class RoomSchedule
 
     public TimeOnly EndTime { get; set; }
 
-    public string Note { get; set; } = null!;
+    public DateTime CreatedDate { get; set; }
+
+    public string? Note { get; set; }
 
     public virtual User ProfessorUser { get; set; } = null!;
 

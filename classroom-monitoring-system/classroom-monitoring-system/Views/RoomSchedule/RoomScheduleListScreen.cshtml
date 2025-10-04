@@ -1,0 +1,57 @@
+﻿@using classroom_monitoring_system.Models
+@model ListScreenModel<RoomScheduleSearchModel>
+@{
+    ViewData["Title"] = "Room Schedule List Screen";
+}
+<div class="card">
+    <div class="card-body">
+
+        <Custom:ActionItems caption="Room Schedules"
+                            template="Default"
+                            id="RoomScheduleID"
+                            table="RoomScheduleTableID"
+                            controller="RoomSchedule"
+                            delete-action="Delete"
+                            edit-action="RoomScheduleEdit">
+        </Custom:ActionItems>
+        <div class="mb-3">
+            <a asp-controller="RoomType" 
+                asp-action="RoomTypeListScreen" 
+                class="btn btn-link btn-sm">
+                    <i class="fa-solid fa-tag"></i> Room Types
+            </a>
+            <a asp-controller="Room" 
+                asp-action="RoomListScreen" 
+                class="btn btn-link btn-sm">
+                    <i class="fa-solid fa-school-flag"></i> Rooms
+            </a>
+        </div>
+        <Custom:SearchForm id="RoomSchuleSearchForm"
+                           controller="RoomSchedule"
+                           action="RoomScheduleSearch">
+            <Custom:TextBox id="RoomCode"
+                            label="Room Code"
+                            type="text"
+                            value="@Model.SearchModel.RoomCode"
+                            placeholder="Enter name">
+            </Custom:TextBox>
+        </Custom:SearchForm>
+
+        <div class="table-responsive">
+            <Custom:Table id="RoomScheduleTableID"
+                          items="Model.Data"
+                          count="Model.DataCount"
+                          page="Model.PageMode"
+                          selection-mode="Multiple"
+                          property="RoomScheduleId"
+                          route="/RoomSchedule/RoomScheduleListScreen"
+                          url="/RoomSchedule/RoomScheduleEdit?RoomScheduleId="
+                          column=1>
+                <Table:Column property="Room.RoomCode" caption="Room Code"></Table:Column>
+                <Table:Column property="DateOfUse" caption="Date"></Table:Column>
+                <Table:Column property="StartTime" caption="Start Time"></Table:Column>
+                <Table:Column property="EndTime" caption="End Time"></Table:Column>
+            </Custom:Table>
+        </div>
+    </div>
+</div>

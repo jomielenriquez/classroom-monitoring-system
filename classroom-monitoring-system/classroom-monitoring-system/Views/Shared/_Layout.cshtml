@@ -56,6 +56,9 @@
                         <a asp-controller="User" asp-action="UserListScreen" class="nav-link text-white @(currentController == "User"? "active" : "")"><i class="fa-solid fa-users-gear"></i> Users</a>
                     </li>
                     <li>
+                        <a asp-controller="Room" asp-action="RoomListScreen" class="nav-link text-white @(currentController == "Room" ? "active" : "")"><i class="fa-solid fa-school-flag"></i> Room</a>
+                    </li>
+                    <li>
                         <a asp-controller="Login" asp-action="Logout" class="nav-link text-white"><i class="fa-solid fa-gear"></i> Settings</a>
                     </li>
                     <li>
@@ -73,13 +76,38 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a asp-controller="Home" asp-action="Index" class="nav-link @(currentController == "Home" && currentAction == "Index" ? "active" : "")" style="font-size: 2rem"><i class="fa-regular fa-house"></i></a>
+                    <a asp-controller="Home" 
+                        asp-action="Index" 
+                        title="Dashboard" 
+                        class="nav-link @(currentController == "Home" && currentAction == "Index" ? "active" : "")"
+                       style="font-size: 2rem; text-align:center"><i class="fa-regular fa-house"></i></a>
                 </li>
                 <li>
-                    <a asp-controller="Home" asp-action="Index" class="nav-link @(currentController == "Clock" && currentAction == "Index" ? "active" : "")" style="font-size: 2rem"><i class="fa-regular fa-clock"></i></a>
+                    <a asp-controller="Attendance" 
+                        asp-action="AttendanceListScreen" 
+                        title="Attendance" class="nav-link @(currentController == "Attendance"? "active" : "")"
+                       style="font-size: 2rem; text-align:center"><i class="fa-regular fa-clock"></i></a>
                 </li>
                 <li>
-                    <a asp-controller="User" asp-action="UserListScreen" class="nav-link @(currentController == "User" ? "active" : "")" style="font-size: 2rem"><i class="fa-solid fa-users-gear"></i></a>
+                    <a asp-controller="RoomSchedule" 
+                        asp-action="RoomScheduleListScreen" 
+                        title="Room Schedule" 
+                        class="nav-link @(currentController == "RoomSchedule" || currentController == "RoomType" ? "active" : "")"
+                       style="font-size: 2rem; text-align:center"><i class="fa-solid fa-calendar"></i></a>
+                </li>
+                <li>
+                    <a asp-controller="User" 
+                        asp-action="UserListScreen" 
+                        title="Users" 
+                        class="nav-link @(currentController == "User" ? "active" : "")"
+                       style="font-size: 2rem; text-align:center"><i class="fa-solid fa-users-gear"></i></a>
+                </li>
+                <li>
+                    <a asp-controller="Room" 
+                        asp-action="RoomListScreen" 
+                        title="Rooms" 
+                        class="nav-link @(currentController == "Room" || currentController == "RoomType" ? "active" : "")"
+                       style="font-size: 2rem; text-align:center"><i class="fa-solid fa-school-flag"></i></a>
                 </li>
             </ul>
             <div class="mt-auto">
