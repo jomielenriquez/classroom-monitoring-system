@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
 	<AssemblyName>classroom_monitoring_system</AssemblyName>
+	<RootNamespace>classroom_monitoring_system</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>74923cf5-483e-4c52-b66d-ce95d542b5c5</UserSecretsId>

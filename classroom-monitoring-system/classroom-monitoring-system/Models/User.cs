@@ -21,5 +21,7 @@ public partial class User
 
     public string Email { get; set; } = null!;
 
+    public virtual ICollection<RoomSchedule> RoomSchedules { get; set; } = new List<RoomSchedule>();
+
     public virtual UserRole UserRole { get; set; } = null!;
 }
