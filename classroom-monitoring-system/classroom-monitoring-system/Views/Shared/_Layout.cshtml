@@ -47,10 +47,10 @@
             <div class="offcanvas-body">
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item">
-                        <a href="#" class="nav-link text-white @(currentController == "Home" && currentAction == "Index" ? "active" : "")"><i class="fa-regular fa-house"></i> Home</a>
+                        <a asp-controller="Home" asp-action="Index" class="nav-link text-white @(currentController == "Home" && currentAction == "Index" ? "active" : "")"><i class="fa-regular fa-house"></i> Home</a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link text-white @(currentController == "Clock" && currentAction == "Index" ? "active" : "")"><i class="fa-regular fa-clock"></i> Clock</a>
+                        <a asp-controller="Home" asp-action="Index" class="nav-link text-white @(currentController == "Clock" && currentAction == "Index" ? "active" : "")"><i class="fa-regular fa-clock"></i> Clock</a>
                     </li>
                     <li>
                         <a asp-controller="User" asp-action="UserListScreen" class="nav-link text-white @(currentController == "User"? "active" : "")"><i class="fa-solid fa-users-gear"></i> Users</a>
@@ -64,16 +64,16 @@
 
         <!-- Sidebar fixed for larger screens -->
         <nav class="sidebar d-none d-md-flex flex-column p-3 bg-dark text-white">
-            <a href="#" class="d-flex justify-content-center align-items-center text-white text-decoration-none p-3">
+            <a asp-controller="Home" asp-action="Index" class="d-flex justify-content-center align-items-center text-white text-decoration-none p-3">
                 <i class="fa-solid fa-bars fs-1"></i>
             </a>
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="#" class="nav-link @(currentController == "Home" && currentAction == "Index" ? "active" : "")" style="font-size: 2rem"><i class="fa-regular fa-house"></i></a>
+                    <a asp-controller="Home" asp-action="Index" class="nav-link @(currentController == "Home" && currentAction == "Index" ? "active" : "")" style="font-size: 2rem"><i class="fa-regular fa-house"></i></a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link @(currentController == "Clock" && currentAction == "Index" ? "active" : "")" style="font-size: 2rem"><i class="fa-regular fa-clock"></i></a>
+                    <a asp-controller="Home" asp-action="Index" class="nav-link @(currentController == "Clock" && currentAction == "Index" ? "active" : "")" style="font-size: 2rem"><i class="fa-regular fa-clock"></i></a>
                 </li>
                 <li>
                     <a asp-controller="User" asp-action="UserListScreen" class="nav-link @(currentController == "User" ? "active" : "")" style="font-size: 2rem"><i class="fa-solid fa-users-gear"></i></a>

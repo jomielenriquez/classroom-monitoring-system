@@ -4,6 +4,7 @@ from pyfingerprint.pyfingerprint import PyFingerprint
 
 app = Flask(__name__)
 CORS(app)  # <-- Enable CORS for all routes
+#30F32AF3-7AA7-49D2-A227-7A3D06401EF4
 
 # Initialize the fingerprint sensor
 try:
