@@ -17,62 +17,130 @@
         </div>
     </div>
 }
+<div class="row">
+    <div class="col">
+        <div class="card mb-3">
+            <div class="card-header">Room Schedule</div>
+            <div class="card-body">
+                <Custom:Form id="RoomSchedule"
+                             submit-tag="Save"
+                             controller="RoomSchedule"
+                             action="Save"
+                             cancel-redirect="/RoomSchedule/RoomScheduleListScreen">
+                    <Custom:TextBox id="RoomScheduleId"
+                                    label="RoomScheduleId"
+                                    type="text"
+                                    value="@Model.Data.RoomScheduleId"
+                                    is-hidden="true"
+                                    placeholder="">
+                    </Custom:TextBox>
+                    <Custom:Dropdown items="@Model.Users"
+                                     id="ProfessorUserId"
+                                     label="Professor"
+                                     key-property="UserId"
+                                     value-property="FullName"
+                                     selected-value="@Model.Data.ProfessorUserId"
+                                     is-required="true">
+                    </Custom:Dropdown>
+                    <Custom:Dropdown items="@Model.Room"
+                                     id="RoomId"
+                                     label="Room"
+                                     key-property="RoomId"
+                                     value-property="RoomCode"
+                                     selected-value="@Model.Data.RoomId"
+                                     is-required="true">
+                    </Custom:Dropdown>
+                    <Custom:TextBox id="DateOfUse"
+                                    label="Date"
+                                    type="date"
+                                    value="@Model.Data.DateOfUse.ToString("yyyy-MM-dd")"
+                                    is-required="true">
+                    </Custom:TextBox>
+                    <Custom:TextBox id="StartTime"
+                                    label="Start Time"
+                                    type="time"
+                                    value="@Model.Data.StartTime.ToString("HH:mm")"
+                                    is-required="true">
+                    </Custom:TextBox>
+                    <Custom:TextBox id="EndTime"
+                                    label="End time"
+                                    type="time"
+                                    value="@Model.Data.EndTime.ToString("HH:mm")"
+                                    placeholder="Enter code"
+                                    is-required="true">
+                    </Custom:TextBox>
+                    <Custom:TextArea id="Note"
+                                     label="Note"
+                                     type="text"
+                                     value="@Model.Data.Note">
+                    </Custom:TextArea>
+                </Custom:Form>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card mb-3">
+            @* <div class="card-header">Room Schedule</div> *@
+            <div class="card-body">
+                <div id="calendar"></div>
+            </div>
+        </div>
 
-<div class="card mb-3">
-    <div class="card-header">Room Schedule</div>
-    <div class="card-body">
-        <Custom:Form id="RoomSchedule"
-                     submit-tag="Save"
-                     controller="RoomSchedule"
-                     action="Save"
-                     cancel-redirect="/RoomSchedule/RoomScheduleListScreen">
-            <Custom:TextBox id="RoomScheduleId"
-                            label="RoomScheduleId"
-                            type="text"
-                            value="@Model.Data.RoomScheduleId"
-                            is-hidden="true"
-                            placeholder="">
-            </Custom:TextBox>
-            <Custom:Dropdown items="@Model.Users"
-                             id="ProfessorUserId"
-                             label="Professor"
-                             key-property="UserId"
-                             value-property="FullName"
-                             selected-value="@Model.Data.ProfessorUserId"
-                             is-required="true">
-            </Custom:Dropdown>
-            <Custom:Dropdown items="@Model.Room"
-                             id="RoomId"
-                             label="Room"
-                             key-property="RoomId"
-                             value-property="RoomCode"
-                             selected-value="@Model.Data.RoomId"
-                             is-required="true">
-            </Custom:Dropdown>
-            <Custom:TextBox id="DateOfUse"
-                            label="Date"
-                            type="date"
-                            value="@Model.Data.DateOfUse.ToString("yyyy-MM-dd")"
-                            is-required="true">
-            </Custom:TextBox>
-            <Custom:TextBox id="StartTime"
-                            label="Start Time"
-                            type="time"
-                            value="@Model.Data.StartTime.ToString("HH:mm")"
-                            is-required="true">
-            </Custom:TextBox>
-            <Custom:TextBox id="EndTime"
-                            label="End time"
-                            type="time"
-                            value="@Model.Data.EndTime.ToString("HH:mm")"
-                            placeholder="Enter code"
-                            is-required="true">
-            </Custom:TextBox>
-            <Custom:TextArea id="Note"
-                             label="Note"
-                             type="text"
-                             value="@Model.Data.Note">
-            </Custom:TextArea>
-        </Custom:Form>
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+              var calendarEl = document.getElementById('calendar');
+
+              var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'timeGridDay',
+                selectable: true,
+                events: function(fetchInfo, successCallback, failureCallback) {
+                  var roomId = document.getElementById("RoomId").value;
+                  fetch(`/RoomSchedule/GetSchedules?roomId=${roomId}`)
+                    .then(response => response.json())
+                    .then(data => successCallback(data))
+                    .catch(err => failureCallback(err));
+                },
+                select: function(info) {
+                  // Fill the inputs when a time range is selected in FullCalendar
+                  document.getElementById("DateOfUse").value = info.startStr.substring(0,10);
+                  document.getElementById("StartTime").value = info.startStr.substring(11,16);
+                  document.getElementById("EndTime").value = info.endStr.substring(11,16);
+                }
+              });
+
+              calendar.render();
+
+              // Refetch events when room changes
+              document.getElementById("RoomId").addEventListener("change", function () {
+                calendar.refetchEvents();
+              });
+
+              // Optional: update calendar if user changes inputs manually
+              function updateCalendarFromInputs() {
+                let date = document.getElementById("DateOfUse").value;
+                let StartTime = document.getElementById("StartTime").value;
+                let EndTime = document.getElementById("EndTime").value;
+
+                if (date && StartTime && EndTime) {
+                  let start = date + "T" + StartTime;
+                  let end = date + "T" + EndTime;
+
+                  calendar.removeAllEvents(); // remove temp events
+                  calendar.refetchEvents();   // reload DB reservations
+                  calendar.addEvent({
+                    title: "Your Selection",
+                    start: start,
+                    end: end,
+                    color: "#3788d8"
+                  });
+                }
+              }
+
+              document.getElementById("DateOfUse").addEventListener("change", updateCalendarFromInputs);
+              document.getElementById("StartTime").addEventListener("change", updateCalendarFromInputs);
+              document.getElementById("EndTime").addEventListener("change", updateCalendarFromInputs);
+            });
+        </script>
     </div>
 </div>

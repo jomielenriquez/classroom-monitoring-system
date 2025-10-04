@@ -59,7 +59,14 @@ namespace classroom_monitoring_system.Repository
             }
             else
             {
-                result.Data = _roomScheduleRepository.Update(roomSchedule);
+                var dbData = _roomScheduleRepository.GetById(roomSchedule.RoomScheduleId);
+                dbData.RoomId = roomSchedule.RoomId;
+                dbData.ProfessorUserId = roomSchedule.ProfessorUserId;
+                dbData.DateOfUse = roomSchedule.DateOfUse;
+                dbData.StartTime = roomSchedule.StartTime;
+                dbData.EndTime = roomSchedule.EndTime;
+                dbData.Note = roomSchedule.Note;
+                result.Data = _roomScheduleRepository.Update(dbData);
             }
             return result;
         }

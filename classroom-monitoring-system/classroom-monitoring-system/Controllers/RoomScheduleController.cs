@@ -3,6 +3,7 @@ using classroom_monitoring_system.Models;
 using classroom_monitoring_system.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 
 namespace classroom_monitoring_system.Controllers
@@ -13,6 +14,7 @@ namespace classroom_monitoring_system.Controllers
         private readonly IBaseRepository<Room> _roomRespository;
         private readonly IBaseRepository<User> _userRepository;
         private readonly IBaseRepository<UserRole> _userRoleRepository;
+        private readonly IBaseRepository<RoomSchedule> _roomSchedule;
         public RoomScheduleController(IBaseRepository<RoomSchedule> roomScheduleRepository,
             IBaseRepository<Room> roomRespository, IBaseRepository<User> userRepository,
             IBaseRepository<UserRole> userRoleRepository)
@@ -21,6 +23,7 @@ namespace classroom_monitoring_system.Controllers
             _roomRespository = roomRespository;
             _userRepository = userRepository;
             _userRoleRepository = userRoleRepository;
+            _roomSchedule = roomScheduleRepository;
         }
         [Authorize(Roles = "Admin")]
         public IActionResult RoomScheduleListScreen(PageModel pageModel)
@@ -44,6 +47,24 @@ namespace classroom_monitoring_system.Controllers
         {
             var result = _roomScheduleService.DeleteRoomSchedule(selected);
             return result.DeleteCount;
+        }
+        // GET: api/roomschedules?roomId=123&start=2025-10-04&end=2025-10-05
+        [HttpGet]
+        public IActionResult GetSchedules(Guid roomId)
+        {
+            var schedules = _roomSchedule.GetByConditionAndIncludes(x =>
+                    x.RoomId == roomId, "ProfessorUser", "Room")
+                .Select(r => new
+                {
+                    id = r.RoomScheduleId,
+                    title = r.ProfessorUser != null ? r.ProfessorUser.FirstName + " " + r.ProfessorUser.LastName : "Reserved",
+                    start = r.DateOfUse.ToDateTime(r.StartTime),
+                    end = r.DateOfUse.ToDateTime(r.EndTime),
+                    note = r.Note
+                })
+                .ToList();
+
+            return Ok(schedules);
         }
         [Authorize(Roles = "Admin")]
         public IActionResult RoomScheduleEdit(RoomSchedule roomSchedule)

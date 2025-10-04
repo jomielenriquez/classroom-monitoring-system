@@ -55,7 +55,12 @@ namespace classroom_monitoring_system.Repository
             }
             else
             {
-                result.Data = _roomRepository.Update(room);
+                var dbData = _roomRepository.GetById(room.RoomId);
+                dbData.RoomName = room.RoomName;
+                dbData.RoomDescription = room.RoomDescription;
+                dbData.RoomCode = room.RoomCode;
+                dbData.RoomTypeId = room.RoomTypeId;
+                result.Data = _roomRepository.Update(dbData);
             }
             return result;
         }
