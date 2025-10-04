@@ -3,46 +3,49 @@
 @{
     ViewData["Title"] = "User List Screen";
 }
+<div class="card">
+    <div class="card-body">
+        <Custom:ActionItems caption="Users"
+                            template="Default"
+                            id="UserID"
+                            table="UserTableID"
+                            controller="User"
+                            delete-action="Delete"
+                            edit-action="UserEdit">
+        </Custom:ActionItems>
 
-<Custom:ActionItems caption="Users"
-                    template="Default"
-                    id="UserID"
-                    table="UserTableID"
-                    controller="User"
-                    delete-action="Delete"
-                    edit-action="UserEdit">
-</Custom:ActionItems>
+        <Custom:SearchForm id="UserSearchForm"
+                           controller="User"
+                           action="UserSearch">
+            <Custom:TextBox id="FirstName"
+                            label="First Name"
+                            type="text"
+                            value="@Model.SearchModel.FirstName"
+                            placeholder="Enter name">
+            </Custom:TextBox>
 
-<Custom:SearchForm id="UserSearchForm"
-                   controller="User"
-                   action="UserSearch">
-    <Custom:TextBox id="FirstName"
-                    label="First Name"
-                    type="text"
-                    value="@Model.SearchModel.FirstName"
-                    placeholder="Enter name">
-    </Custom:TextBox>
-
-    <Custom:TextBox id="LastName"
-                    label="Last Name"
-                    type="text"
-                    value="@Model.SearchModel.LastName"
-                    placeholder="Enter name">
-    </Custom:TextBox>
-</Custom:SearchForm>
-<div class="table-responsive">
-    <Custom:Table id="UserTableID"
-                  items="Model.Data"
-                  count="Model.DataCount"
-                  page="Model.PageMode"
-                  selection-mode="Multiple"
-                  property="UserId"
-                  route="/User/ListScreen"
-                  url="/User/UserEdit?UserId="
-                  column=1>
-        <Table:Column property="Email" caption="Email"></Table:Column>
-        <Table:Column property="FirstName" caption="First Name"></Table:Column>
-        <Table:Column property="LastName" caption="Last Name"></Table:Column>
-        <Table:Column property="UserRole.RoleName" caption="Role"></Table:Column>
-    </Custom:Table>
+            <Custom:TextBox id="LastName"
+                            label="Last Name"
+                            type="text"
+                            value="@Model.SearchModel.LastName"
+                            placeholder="Enter name">
+            </Custom:TextBox>
+        </Custom:SearchForm>
+        <div class="table-responsive">
+            <Custom:Table id="UserTableID"
+                          items="Model.Data"
+                          count="Model.DataCount"
+                          page="Model.PageMode"
+                          selection-mode="Multiple"
+                          property="UserId"
+                          route="/User/ListScreen"
+                          url="/User/UserEdit?UserId="
+                          column=1>
+                <Table:Column property="Email" caption="Email"></Table:Column>
+                <Table:Column property="FirstName" caption="First Name"></Table:Column>
+                <Table:Column property="LastName" caption="Last Name"></Table:Column>
+                <Table:Column property="UserRole.RoleName" caption="Role"></Table:Column>
+            </Custom:Table>
+        </div>
+    </div>
 </div>

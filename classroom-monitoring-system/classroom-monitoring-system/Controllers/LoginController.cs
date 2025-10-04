@@ -17,8 +17,9 @@ namespace classroom_monitoring_system.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return View();
         }
         [ValidateAntiForgeryToken]

@@ -75,13 +75,15 @@ body {
 
 .card {
     position: relative;
+    border-radius: 25px !important
 }
-.card-body {
-    background-color: #e6e4d4;
+.card-body{
     border-radius: 25px;
     padding: 25px;
 }
-
+.card-body, .card-header, .card {
+    background-color: #e6e4d4;
+}
     .card::before {
         content: "";
         position: absolute;
@@ -91,11 +93,20 @@ body {
         bottom: 10px;
         z-index: -1;
         border-radius: 0.5rem; /* match card radius */
-        background: linear-gradient(135deg, rgba(0,0,0,0.2), rgba(0,0,0,0));
+        background: linear-gradient(135deg, rgba(0,0,0,0.2), rgba(0,0,0,0)) !important;
         filter: blur(10px);
     }
+
 .card {
-    box-shadow: 0 15px 25px -5px rgba(0,0,0,0.2);
-    background: linear-gradient(to bottom right, #f8f9fa, #ffffff);
+    box-shadow: 0 15px 25px -5px rgba(0,0,0,0.2) !important;
+    background: linear-gradient(to bottom right, #f8f9fa, #ffffff) !important;
     border: none;
+}
+
+.accordion-button, .accordion-body, .page-item, .pagination, .form-check-input {
+    background-color: #dcdacb !important;
+}
+
+.form-select, .form-control {
+    background-color: #ccc9ba !important;
 }

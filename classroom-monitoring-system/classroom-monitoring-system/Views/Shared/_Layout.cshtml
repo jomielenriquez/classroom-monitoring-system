@@ -27,6 +27,7 @@
         var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
         var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
         var roles = User.FindFirstValue(ClaimTypes.Role);
+        var currentUserFullName = User.FindFirstValue(ClaimTypes.Name);
     }
     @if (roles != null)
     {
@@ -48,10 +49,16 @@
             <div class="offcanvas-body">
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item">
-                        <a href="#" class="nav-link text-white active"><i class="fa-regular fa-house"></i> Home</a>
+                        <a href="#" class="nav-link text-white @(currentController == "Home" && currentAction == "Index" ? "active" : "")"><i class="fa-regular fa-house"></i> Home</a>
                     </li>
                     <li>
-                        <a href="#" class="nav-link text-white"><i class="fa-regular fa-clock"></i> Clock</a>
+                        <a href="#" class="nav-link text-white @(currentController == "Clock" && currentAction == "Index" ? "active" : "")"><i class="fa-regular fa-clock"></i> Clock</a>
+                    </li>
+                    <li>
+                        <a asp-controller="User" asp-action="UserListScreen" class="nav-link text-white @(currentController == "User"? "active" : "")"><i class="fa-solid fa-users-gear"></i> Users</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Login" asp-action="Logout" class="nav-link text-white"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
                     </li>
                 </ul>
             </div>
@@ -65,10 +72,13 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="#" class="nav-link active" style="font-size: 2rem"><i class="fa-regular fa-house"></i></a>
+                    <a href="#" class="nav-link @(currentController == "Home" && currentAction == "Index" ? "active" : "")" style="font-size: 2rem"><i class="fa-regular fa-house"></i></a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link" style="font-size: 2rem"><i class="fa-regular fa-clock"></i></a>
+                    <a href="#" class="nav-link @(currentController == "Clock" && currentAction == "Index" ? "active" : "")" style="font-size: 2rem"><i class="fa-regular fa-clock"></i></a>
+                </li>
+                <li>
+                    <a asp-controller="User" asp-action="UserListScreen" class="nav-link @(currentController == "User" ? "active" : "")" style="font-size: 2rem"><i class="fa-solid fa-users-gear"></i></a>
                 </li>
                 <li>
                     <a asp-controller="Login" asp-action="Logout" class="nav-link" style="font-size: 2rem"><i class="fa-solid fa-right-from-bracket"></i></a>
@@ -79,10 +89,29 @@
 
     <!-- Page Content -->
     <div class="content">
-        <img src="~/images/logo.png" style="width:80px;" />
-        <hr />
-
-        <hr />
+        @if (roles != null)
+        {
+            <img src="~/images/logo.png" style="width:80px;" />
+            <hr />
+            <div class="row">
+                <div class="col col-1 d-flex justify-content-center align-items-center" style="font-size: 3rem;">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div class="col col-9">
+                    <h3>@currentUserFullName</h3>
+                    <h5><i>@roles</i></h5>
+                </div>
+                <div class="col justify-content-end">
+                    @{
+                        TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById("Asia/Manila");
+                        var date = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
+                    }
+                    <h5>@date.ToString("MMM d, yyy")</h5>
+                    <h5>@date.ToString("dddd")</h5>
+                </div>
+            </div>
+            <hr />
+        }
         <div class="container mb-5">
             @RenderBody()
         </div>
