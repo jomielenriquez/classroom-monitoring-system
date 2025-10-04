@@ -20,3 +20,82 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar {
+    height: 100vh; /* full height */
+    width: 100px; /* adjust sidebar width */
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #d83128 !important; /* dark background */
+    padding-top: 1rem;
+}
+
+    .sidebar .nav-link {
+        color: #ddd;
+    }
+
+        .sidebar .nav-link.active {
+            background-color: #a4251e !important;
+            color: #fff;
+        }
+
+.content {
+    padding: 20px;
+}
+
+/* On medium screens and up (desktop/tablet) */
+@media (min-width: 768px) {
+    .sidebar + .content {
+        margin-left: 110px; /* same as sidebar width */
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 0px;
+    }
+
+        .sidebar + .content {
+            margin-left: 0px;
+        }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: linear-gradient(to right, #b0b0b0 0%, #d3d3d3 30%, #ffffff 70%, #ffffff 100%);
+}
+
+.card {
+    position: relative;
+}
+.card-body {
+    background-color: #e6e4d4;
+    border-radius: 25px;
+    padding: 25px;
+}
+
+    .card::before {
+        content: "";
+        position: absolute;
+        top: 10px; /* offset */
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        z-index: -1;
+        border-radius: 0.5rem; /* match card radius */
+        background: linear-gradient(135deg, rgba(0,0,0,0.2), rgba(0,0,0,0));
+        filter: blur(10px);
+    }
+.card {
+    box-shadow: 0 15px 25px -5px rgba(0,0,0,0.2);
+    background: linear-gradient(to bottom right, #f8f9fa, #ffffff);
+    border: none;
+}

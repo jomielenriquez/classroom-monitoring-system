@@ -12,41 +12,48 @@
         margin-top: 10px;
     }
 </style>
+<img src="~/images/logo.png" style="width:140px;" />
 <div>
-    @* <img src="~/image/icon.png" class="justify-content-center container bs-component container d-flex" style="width:140px;" /> *@
-    <div class="well bs-component container d-flex justify-content-center">
-        <form method="post" asp-action="Login">
-            <div class="card" style="border-top: 5px solid green">
-                <div class="card-body">
+    <div class="row">
+        <div class="col col-8">
+            <img src="~/images/building2.png" style="max-width:100%; margin-top: 30px;"/>
+            <h1 style="text-align:center; color:#d83128">Tanauan City College</h1>
+        </div>
+        <div class="col">
+            <div class="well bs-component container d-flex justify-content-end">
+                <form method="post" asp-action="Login">
+                    <div class="card gradient-shadow" style="border-radius: 25px !important">
+                        <div class="card-body">
 
-                    <h3>Login</h3>
-                    <hr />
+                            <h3>Login</h3>
 
-                    <div class="mb-3">
-                        <label for="username" class="form-label">User Name</label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="User Name" asp-for="@Model.UserName" required>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">User Name</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="User Name" asp-for="@Model.UserName" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-danger"><i class="fa-solid fa-lock-open"></i> Login</button>
+                            </div>
+                            <hr />
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
-                    </div>
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-success"><i class="fa-solid fa-lock-open"></i> Login</button>
-                    </div>
-                    <hr />
-                </div>
+
+                    @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+                    {
+                        <br />
+                        <div class="alert alert-danger d-flex align-items-center" role="alert">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <div>
+                                <div>@ViewBag.ErrorMessage</div>
+                            </div>
+                        </div>
+                    }
+                </form>
             </div>
-
-            @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
-            {
-                <br />
-                <div class="alert alert-danger d-flex align-items-center" role="alert">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <div>
-                        <div>@ViewBag.ErrorMessage</div>
-                    </div>
-                </div>
-            }
-        </form>
+        </div>
     </div>
 </div>

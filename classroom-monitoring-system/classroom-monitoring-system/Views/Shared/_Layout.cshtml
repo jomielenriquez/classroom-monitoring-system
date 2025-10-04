@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@@fortawesome/fontawesome-free@@6.7.2/css/solid.min.css" />
     <title>@ViewData["Title"] - Classroom Monitoring System</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/taghelper/css/taghelper.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/classroom_monitoring_system.styles.css" asp-append-version="true" />
@@ -17,55 +20,8 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    <style>
-        body {
-          margin: 0;
-          padding: 0;
-        }
-        .sidebar {
-          height: 100vh; /* full height */
-          width: 220px;  /* adjust sidebar width */
-          position: fixed;
-          top: 0;
-          left: 0;
-          background-color: #343a40; /* dark background */
-          padding-top: 1rem;
-        }
-        .sidebar .nav-link {
-          color: #ddd;
-        }
-        .sidebar .nav-link.active {
-          background-color: #495057;
-          color: #fff;
-        }
-        .content {
-          margin-left: 220px; /* same as sidebar width */
-          padding: 20px;
-        }
-    </style>
 </head>
 <body>
-    @* <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">classroom_monitoring_system</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header> *@
     <!-- Sidebar -->
     @{
         var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
@@ -74,49 +30,72 @@
     }
     @if (roles != null)
     {
-        
+        <!-- Sidebar Toggle (hamburger button) -->
+        <nav class="navbar navbar-dark bg-dark d-md-none">
+            <div class="container-fluid">
+                <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+                    <i class="fa-solid fa-bars fs-1"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Sidebar as Offcanvas for mobile -->
+        <div class="offcanvas offcanvas-start bg-dark text-white d-md-none" tabindex="-1" id="sidebarMenu">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title">Menu</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link text-white active"><i class="fa-regular fa-house"></i> Home</a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link text-white"><i class="fa-regular fa-clock"></i> Clock</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sidebar fixed for larger screens -->
+        <nav class="sidebar d-none d-md-flex flex-column p-3 bg-dark text-white">
+            <a href="#" class="d-flex justify-content-center align-items-center text-white text-decoration-none p-3">
+                <i class="fa-solid fa-bars fs-1"></i>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" style="font-size: 2rem"><i class="fa-regular fa-house"></i></a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link" style="font-size: 2rem"><i class="fa-regular fa-clock"></i></a>
+                </li>
+                <li>
+                    <a asp-controller="Login" asp-action="Logout" class="nav-link" style="font-size: 2rem"><i class="fa-solid fa-right-from-bracket"></i></a>
+                </li>
+            </ul>
+        </nav>
     }
-    <nav class="sidebar d-flex flex-column p-3">
-        <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <span class="fs-4">MyApp</span>
-        </a>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a href="#" class="nav-link active">Dashboard</a>
-            </li>
-            <li>
-                <a href="#" class="nav-link">Orders</a>
-            </li>
-            <li>
-                <a href="#" class="nav-link">Products</a>
-            </li>
-            <li>
-                <a href="#" class="nav-link">Customers</a>
-            </li>
-            <li>
-                <a href="#" class="nav-link">Reports</a>
-            </li>
-        </ul>
-    </nav>
 
     <!-- Page Content -->
     <div class="content">
-        <h1>Welcome!</h1>
-        <p>This is your main content area. The navbar is fixed on the left.</p>
+        <img src="~/images/logo.png" style="width:80px;" />
+        <hr />
 
-        @RenderBody()
-        <footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2025 - classroom_monitoring_system - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            </div>
-        </footer>
+        <hr />
+        <div class="container mb-5">
+            @RenderBody()
+        </div>
+        @if (roles != null)
+        {
+            <footer class="border-top footer text-muted">
+                <div class="container">
+                    &copy; 2025 - Classroom Monitoring System - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>
+        
+            </footer>
+        }
     </div>
-
-    @* <div class="container">
-        <main role="main" class="pb-3">
-        </main>
-    </div> *@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
