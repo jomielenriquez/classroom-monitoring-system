@@ -13,7 +13,9 @@ public partial class Room
 
     public Guid RoomTypeId { get; set; }
 
-    public int? RoomNumber { get; set; }
+    public string RoomCode { get; set; } = null!;
+
+    public DateTime CreatedDate { get; set; }
 
     public virtual ICollection<RoomSchedule> RoomSchedules { get; set; } = new List<RoomSchedule>();
 

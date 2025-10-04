@@ -1,0 +1,52 @@
+﻿@using classroom_monitoring_system.Models
+@model ListScreenModel<RoomSearchModel>
+@{
+    ViewData["Title"] = "Room List Screen";
+}
+<div class="card">
+    <div class="card-body">
+        <Custom:ActionItems caption="Rooms"
+                            template="Default"
+                            id="RoomID"
+                            table="RoomTableID"
+                            controller="Room"
+                            delete-action="Delete"
+                            edit-action="RoomEdit">
+        </Custom:ActionItems>
+
+        <Custom:SearchForm id="RoomSearchForm"
+                           controller="Room"
+                           action="RoomSearch">
+            <Custom:TextBox id="RoomName"
+                            label="Room Name"
+                            type="text"
+                            value="@Model.SearchModel.RoomName"
+                            placeholder="Enter name">
+            </Custom:TextBox>
+
+            <Custom:TextBox id="RoomDescription"
+                            label="Room Description"
+                            type="text"
+                            value="@Model.SearchModel.RoomDescription"
+                            placeholder="Enter description">
+            </Custom:TextBox>
+        </Custom:SearchForm>
+
+        <div class="table-responsive">
+            <Custom:Table id="RoomTableID"
+                          items="Model.Data"
+                          count="Model.DataCount"
+                          page="Model.PageMode"
+                          selection-mode="Multiple"
+                          property="RoomId"
+                          route="/Room/RoomListScreen"
+                          url="/Room/RoomEdit?RoomId="
+                          column=1>
+                <Table:Column property="RoomName" caption="Name"></Table:Column>
+                <Table:Column property="RoomDescription" caption="Description"></Table:Column>
+                <Table:Column property="RoomCode" caption="Code"></Table:Column>
+                <Table:Column property="RoomType.RoleTypeName" caption="Type"></Table:Column>
+            </Custom:Table>
+        </div>
+    </div>
+</div>

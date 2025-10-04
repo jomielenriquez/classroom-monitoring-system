@@ -1,0 +1,42 @@
+﻿@using classroom_monitoring_system.Models
+@model ListScreenModel<RoomTypeSearchModel>
+@{
+    ViewData["Title"] = "Room Type List Screen";
+}
+<div class="card">
+    <div class="card-body">
+        <Custom:ActionItems caption="Room Types"
+                            template="Default"
+                            id="RoomTypeID"
+                            table="RoomTypeTableID"
+                            controller="RoomType"
+                            delete-action="Delete"
+                            edit-action="RoomTypeEdit">
+        </Custom:ActionItems>
+
+        <Custom:SearchForm id="RoomTypeSearchForm"
+                           controller="RoomType"
+                           action="RoomTypeSearch">
+            <Custom:TextBox id="RoomTypeName"
+                            label="Room Type Name"
+                            type="text"
+                            value="@Model.SearchModel.RoomTypeName"
+                            placeholder="Enter name">
+            </Custom:TextBox>
+        </Custom:SearchForm>
+        <div class="table-responsive">
+            <Custom:Table id="RoomTypeTableID"
+                          items="Model.Data"
+                          count="Model.DataCount"
+                          page="Model.PageMode"
+                          selection-mode="Multiple"
+                          property="RoomTypeId"
+                          route="/RoomType/RoomTypeListScreen"
+                          url="/RoomType/RoomTypeEdit?RoomTypeId="
+                          column=1>
+                <Table:Column property="RoomTypeName" caption="Room Type Name"></Table:Column>
+                <Table:Column property="RoomTypeDescription" caption="Room Type Description"></Table:Column>
+            </Custom:Table>
+        </div>
+    </div>
+</div>

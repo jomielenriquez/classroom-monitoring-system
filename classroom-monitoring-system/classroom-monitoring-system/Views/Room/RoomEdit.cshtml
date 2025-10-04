@@ -1,0 +1,68 @@
+﻿@using classroom_monitoring_system.Models
+@using System.Security.Claims
+@model EditScreenModel<Room>
+@{
+    ViewData["Title"] = "Room Edit Screen";
+}
+@if (Model.ErrorMessages != null)
+{
+    <br />
+    <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div>
+            @foreach (var error in Model.ErrorMessages)
+            {
+                <div>@error</div>
+            }
+        </div>
+    </div>
+}
+
+<div class="card mb-3">
+    <div class="card-header">Room</div>
+    <div class="card-body">
+        <Custom:Form id="Room"
+                     submit-tag="Save"
+                     controller="Room"
+                     action="Save"
+                     cancel-redirect="/Room/RoomListScreen">
+            <Custom:TextBox id="RoomId"
+                            label="RoomId"
+                            type="text"
+                            value="@Model.Data.RoomId"
+                            is-hidden="true"
+                            placeholder="">
+            </Custom:TextBox>
+            <Custom:TextBox id="RoomName"
+                            label="Room Name"
+                            type="text"
+                            value="@Model.Data.RoomName"
+                            placeholder="Enter Room Name"
+                            is-required="true">
+            </Custom:TextBox>
+            <Custom:TextBox id="RoomDescription"
+                            label="Description"
+                            type="text"
+                            value="@Model.Data.RoomDescription"
+                            placeholder="Enter Description"
+                            is-required="true">
+            </Custom:TextBox>
+            <Custom:TextBox id="RoomCode"
+                            label="Code"
+                            type="text"
+                            value="@Model.Data.RoomCode"
+                            placeholder="Enter code"
+                            is-required="true">
+            </Custom:TextBox>
+
+            <Custom:Dropdown items="@Model.RoomType"
+                             id="RoomTypeId"
+                             label="Room Type"
+                             key-property="RoomTypeId"
+                             value-property="RoomTypeName"
+                             selected-value="@Model.Data.RoomTypeId"
+                             is-required="true">
+            </Custom:Dropdown>
+        </Custom:Form>
+    </div>
+</div>

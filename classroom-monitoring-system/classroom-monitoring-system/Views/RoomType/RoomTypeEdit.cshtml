@@ -1,0 +1,52 @@
+﻿@using classroom_monitoring_system.Models
+@using System.Security.Claims
+@model EditScreenModel<RoomType>
+@{
+    ViewData["Title"] = "Room Type Edit Screen";
+}
+@if (Model.ErrorMessages != null)
+{
+    <br />
+    <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div>
+            @foreach (var error in Model.ErrorMessages)
+            {
+                <div>@error</div>
+            }
+        </div>
+    </div>
+}
+
+<div class="card mb-3">
+    <div class="card-header">Room Type</div>
+    <div class="card-body">
+        <Custom:Form id="RoomType"
+                     submit-tag="Save"
+                     controller="RoomType"
+                     action="Save"
+                     cancel-redirect="/RoomType/RoomTypeListScreen">
+            <Custom:TextBox id="RoomTypeId"
+                            label="RoomTypeId"
+                            type="text"
+                            value="@Model.Data.RoomTypeId"
+                            is-hidden="true"
+                            placeholder="">
+            </Custom:TextBox>
+            <Custom:TextBox id="RoomTypeName"
+                            label="Room Type Name"
+                            type="text"
+                            value="@Model.Data.RoomTypeName"
+                            placeholder="Enter Room Type Name"
+                            is-required="true">
+            </Custom:TextBox>
+            <Custom:TextBox id="RoomTypeDescription"
+                            label="Description"
+                            type="text"
+                            value="@Model.Data.RoomTypeDescription"
+                            placeholder="Enter Description"
+                            is-required="true">
+            </Custom:TextBox>
+        </Custom:Form>
+    </div>
+</div>
