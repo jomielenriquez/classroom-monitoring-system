@@ -34,10 +34,21 @@ namespace classroom_monitoring_system.Repository
             {
                 errors.Add("Room is required.");
             }
-            //if (roomSchedule.DateOfUse > DateOnly.FromDateTime(DateTime.Now))
-            //{
-            //    errors.Add("Room is required.");
-            //}
+            var overlapSchedule = _roomScheduleRepository.GetByConditionAndIncludes(x =>
+                x.RoomId == roomSchedule.RoomId &&
+                x.DateOfUse == roomSchedule.DateOfUse &&
+                x.RoomScheduleId != roomSchedule.RoomScheduleId && // Exclude self when editing
+                x.StartTime < roomSchedule.EndTime &&
+                roomSchedule.StartTime < x.EndTime
+            );
+            if (overlapSchedule.Any())
+            {
+                errors.Add("Cannot save this schedule since it overlaps with an existing schedule.");
+            }
+            if (roomSchedule.StartTime > roomSchedule.EndTime)
+            {
+                errors.Add("End time must be later than start time.");
+            }
             return new Results<List<string>> { IsSuccess = !errors.Any(), Errors = errors };
         }
         public Results<RoomSchedule> SaveRoomSchedule(RoomSchedule roomSchedule)

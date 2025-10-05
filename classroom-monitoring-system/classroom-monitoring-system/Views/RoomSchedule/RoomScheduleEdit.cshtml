@@ -122,18 +122,31 @@
                 let StartTime = document.getElementById("StartTime").value;
                 let EndTime = document.getElementById("EndTime").value;
 
+                if (date) {
+                    // Move calendar view to that date
+                    calendar.gotoDate(date);
+                }
+
+
                 if (date && StartTime && EndTime) {
                   let start = date + "T" + StartTime;
                   let end = date + "T" + EndTime;
-
+                  
+                  
+                  
                   calendar.removeAllEvents(); // remove temp events
                   calendar.refetchEvents();   // reload DB reservations
+                  // Add a temporary highlighted event
                   calendar.addEvent({
-                    title: "Your Selection",
-                    start: start,
-                    end: end,
-                    color: "#3788d8"
+                      id: 'highlight',
+                      title: "Selected Time",
+                      start: start,
+                      end: end,
+                      color: "#5bc0de",       // teal-blue color
+                      display: "background",  // makes it a translucent block
+                      overlap: false
                   });
+                  calendar.scrollToTime(StartTime);
                 }
               }
 

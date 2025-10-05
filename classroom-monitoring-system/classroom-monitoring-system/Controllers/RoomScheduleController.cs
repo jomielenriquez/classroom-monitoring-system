@@ -52,8 +52,13 @@ namespace classroom_monitoring_system.Controllers
         [HttpGet]
         public IActionResult GetSchedules(Guid roomId)
         {
-            var schedules = _roomSchedule.GetByConditionAndIncludes(x =>
-                    x.RoomId == roomId, "ProfessorUser", "Room")
+            var scheds = roomId != Guid.Empty 
+                ? _roomSchedule.GetByConditionAndIncludes(x =>
+                    x.RoomId == roomId, "ProfessorUser", "Room") 
+                : _roomSchedule.GetByConditionAndIncludes(x =>
+                    x.RoomScheduleId != null, "ProfessorUser", "Room");
+
+            var schedules = scheds
                 .Select(r => new
                 {
                     id = r.RoomScheduleId,
