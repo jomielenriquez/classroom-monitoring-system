@@ -43,3 +43,25 @@ Restart
 ```bash
 sudo systemctl restart fingerprint.service
 ```
+
+### How to setup raspberry pi
+- 1. Install 32bit lite os
+- 2. Update and install necessarry apps
+```
+sudo apt update && sudo apt upgrade -y
+sudo apt install --no-install-recommends xorg openbox chromium-browser x11-xserver-utils unclutter lightdm -y
+```
+- 3. Enable Serial for R307
+```
+sudo raspi-config
+```
+then navigate
+```
+Interface Options → Serial Port → 
+  Disable login shell over serial → Yes  
+  Enable serial hardware port → Yes
+```
+Then reboot
+```
+sudo reboot
+```
