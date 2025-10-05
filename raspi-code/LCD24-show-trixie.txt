@@ -1,0 +1,65 @@
+#!/bin/bash
+
+# Backup system files
+sudo ./system_backup.sh
+
+# Ensure xorg.conf.d exists
+if [ ! -d /etc/X11/xorg.conf.d ]; then
+    sudo mkdir -p /etc/X11/xorg.conf.d
+fi
+
+# Remove old libinput config if exists
+if [ -f /etc/X11/xorg.conf.d/40-libinput.conf ]; then
+    sudo rm -f /etc/X11/xorg.conf.d/40-libinput.conf
+fi
+
+# Copy TFT device tree overlay
+sudo cp ./usr/tft9341-overlay.dtb /boot/overlays/tft9341.dtbo
+
+# Load system config
+source ./system_config.sh
+
+# Configure /boot/config.txt
+sudo cp ./boot/config-nomal.txt ./boot/config.txt.bak
+
+sudo bash -c 'cat <<EOT >> ./boot/config.txt.bak
+hdmi_force_hotplug=1
+dtparam=i2c_arm=on
+dtparam=spi=on
+enable_uart=1
+dtoverlay=tft9341:rotate=270
+EOT'
+
+# Apply config
+sudo cp ./boot/config.txt.bak /boot/config.txt
+
+# Copy touchscreen calibration
+sudo cp ./usr/99-calibration.conf-32-270 /etc/X11/xorg.conf.d/99-calibration.conf
+
+# Install X11 evdev driver for touchscreen
+sudo apt update
+sudo apt install -y xserver-xorg-input-evdev xinput-calibrator
+
+# Ensure rc.local exists (for optional autostart commands)
+if [ ! -f /etc/rc.local ]; then
+    sudo bash -c 'echo -e "#!/bin/sh -e\nexit 0" > /etc/rc.local'
+    sudo chmod +x /etc/rc.local
+fi
+
+# Touchscreen config copied
+sudo cp ./usr/inittab /etc/
+
+# Sync changes
+sudo sync
+sleep 1
+
+# Optional: rotate display if parameter provided
+if [ $# -eq 1 ]; then
+    sudo ./rotate.sh $1
+elif [ $# -gt 1 ]; then
+    echo "Too many parameters"
+fi
+
+# Reboot to apply changes
+echo "Rebooting now..."
+sudo reboot
