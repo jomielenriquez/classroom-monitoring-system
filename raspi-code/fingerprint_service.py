@@ -37,7 +37,7 @@ def enroll():
                     'isSuccessful': False, 
                     'message': f'Fingerprint already enrolled at position {position_number}', 
                     'position': position_number, 
-                    'userId': None
+                    'userId': user_id
                 }
             ), 200
 
@@ -68,12 +68,68 @@ def verify():
         position_number = result[0]
 
         if position_number == -1:
-            return jsonify({'message': 'No match found'})
+            return jsonify(
+                {
+                    'isSuccessful': False, 
+                    'message': 'No match found', 
+                    'position': position_number
+                }
+            )
         else:
-            return jsonify({'message': f'Match found at position {position_number}'})
+            return jsonify(
+                {
+                    'isSuccessful': True, 
+                    'message': 'Match found', 
+                    'position': position_number
+                }
+            )
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@app.route('/delete', methods=['DELETE'])
+def delete():
+    try:
+        # Expecting a JSON body like { "position": 3 }
+        position_number = request.json.get('position')
+
+        if position_number is None:
+            return jsonify(
+                {
+                    'isSuccessful': False, 
+                    'message': 'Position is required', 
+                    'position': position_number
+                }
+            ), 400
+
+        # Check valid range
+        if not (0 <= position_number < sensor.getTemplateCount()):
+            return jsonify(
+                {
+                    'isSuccessful': False, 
+                    'message': 'Invalid position number', 
+                    'position': position_number
+                }
+            ), 400
+
+        # Delete the template
+        if sensor.deleteTemplate(position_number):
+            return jsonify({
+                'isSuccessful': True,
+                'message': f'Template at position {position_number} deleted successfully',
+                'position': position_number
+            })
+        else:
+            return jsonify({
+                'isSuccessful': False,
+                'message': f'Failed to delete template at position {position_number}',
+                'position': position_number
+            })
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run()  # Expose to network

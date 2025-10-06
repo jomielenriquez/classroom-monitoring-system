@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS  # 👈 import CORS
+import time
 
 app = Flask(__name__)
 CORS(app)  # 👈 enable CORS for all routes
@@ -8,6 +9,9 @@ CORS(app)  # 👈 enable CORS for all routes
 def enroll():
     # Example position number
     position_number = 3
+    
+    # 👇 Delay for 2 seconds
+    time.sleep(2)
 
     return jsonify({
         'isSuccessful': False,
