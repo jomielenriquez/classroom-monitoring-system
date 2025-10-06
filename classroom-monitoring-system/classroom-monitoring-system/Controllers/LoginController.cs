@@ -83,14 +83,14 @@ namespace classroom_monitoring_system.Controllers
             {
                 // Invalid credentials
                 ViewBag.ErrorMessage = "Invalid username or password.";
-                return Json(new { isSuccessful = true, redirectUrl = Url.Action("Index", "Home") });
+                return Json(new { isSuccessful = false, message = "Invalid fingerprint." });
             }
         }
         [Authorize]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Json(new { isSuccessful = false, message = "Invalid fingerprint." });
+            return RedirectToAction("Index", "Login");
         }
     }
 }

@@ -18,21 +18,14 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
-    @{
-        var isFromDevice = Context.Session.GetString("IsFromDevice") == "true";
-    }
-
-    @if (isFromDevice)
-    {
-        <style>
-            .raspi, #loadingOverlay, #loadingOverlay2 {
-                margin-right: 32%;
-            }
-        </style>
-    }
+    <style>
+        .raspi{
+            margin-right:30%;
+        }
+    </style>
 </head>
 <body class="raspi">
-    
+
     <!-- Loading animation -->
     <style>
         /* Centered overlay loader */
@@ -41,7 +34,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 68%;
+            width: 100%;
             height: 100%;
             background: rgba(255, 255, 255, 0.7);
             z-index: 9999;
@@ -69,7 +62,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 68%;
+            width: 100%;
             height: 100%;
             background: rgba(255, 255, 255, 0.9);
             z-index: 9999;
@@ -98,35 +91,29 @@
             }
 
         @@keyframes pulse2 {
-            0%, 100%
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
 
-        {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        50% {
-            transform: scale(1.05);
-            opacity: 0.7;
-        }
-
+            50% {
+                transform: scale(1.05);
+                opacity: 0.7;
+            }
         }
 
         @@keyframes scan2 {
-            0%
+            0% {
+                transform: translateY(100%) scaleY(0);
+            }
 
-        {
-            transform: translateY(100%) scaleY(0);
-        }
+            50% {
+                transform: translateY(0) scaleY(1);
+            }
 
-        50% {
-            transform: translateY(0) scaleY(1);
-        }
-
-        100% {
-            transform: translateY(-100%) scaleY(0);
-        }
-
+            100% {
+                transform: translateY(-100%) scaleY(0);
+            }
         }
 
         .scan-text2 {
@@ -136,7 +123,7 @@
             font-size: 1.2rem;
         }
     </style>
- 
+
     <!-- Sidebar -->
     @{
         var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
@@ -170,7 +157,7 @@
                         <a asp-controller="Home" asp-action="Index" class="nav-link text-white @(currentController == "Clock" && currentAction == "Index" ? "active" : "")"><i class="fa-regular fa-clock"></i> Clock</a>
                     </li>
                     <li>
-                        <a asp-controller="User" asp-action="UserListScreen" class="nav-link text-white @(currentController == "User"? "active" : "")"><i class="fa-solid fa-users-gear"></i> Users</a>
+                        <a asp-controller="User" asp-action="UserListScreen" class="nav-link text-white @(currentController == "User" ? "active" : "")"><i class="fa-solid fa-users-gear"></i> Users</a>
                     </li>
                     <li>
                         <a asp-controller="Room" asp-action="RoomListScreen" class="nav-link text-white @(currentController == "Room" ? "active" : "")"><i class="fa-solid fa-school-flag"></i> Room</a>
@@ -193,37 +180,37 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a asp-controller="Home" 
-                        asp-action="Index" 
-                        title="Dashboard" 
-                        class="nav-link @(currentController == "Home" && currentAction == "Index" ? "active" : "")"
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       title="Dashboard"
+                       class="nav-link @(currentController == "Home" && currentAction == "Index" ? "active" : "")"
                        style="font-size: 2rem; text-align:center"><i class="fa-regular fa-house"></i></a>
                 </li>
                 <li>
-                    <a asp-controller="Attendance" 
-                        asp-action="AttendanceListScreen" 
-                        title="Attendance" class="nav-link @(currentController == "Attendance"? "active" : "")"
+                    <a asp-controller="Attendance"
+                       asp-action="AttendanceListScreen"
+                       title="Attendance" class="nav-link @(currentController == "Attendance" ? "active" : "")"
                        style="font-size: 2rem; text-align:center"><i class="fa-regular fa-clock"></i></a>
                 </li>
                 <li>
-                    <a asp-controller="RoomSchedule" 
-                        asp-action="RoomScheduleListScreen" 
-                        title="Room Schedule" 
-                        class="nav-link @(currentController == "RoomSchedule" || currentController == "RoomType" ? "active" : "")"
+                    <a asp-controller="RoomSchedule"
+                       asp-action="RoomScheduleListScreen"
+                       title="Room Schedule"
+                       class="nav-link @(currentController == "RoomSchedule" || currentController == "RoomType" ? "active" : "")"
                        style="font-size: 2rem; text-align:center"><i class="fa-solid fa-calendar"></i></a>
                 </li>
                 <li>
-                    <a asp-controller="User" 
-                        asp-action="UserListScreen" 
-                        title="Users" 
-                        class="nav-link @(currentController == "User" ? "active" : "")"
+                    <a asp-controller="User"
+                       asp-action="UserListScreen"
+                       title="Users"
+                       class="nav-link @(currentController == "User" ? "active" : "")"
                        style="font-size: 2rem; text-align:center"><i class="fa-solid fa-users-gear"></i></a>
                 </li>
                 <li>
-                    <a asp-controller="Room" 
-                        asp-action="RoomListScreen" 
-                        title="Rooms" 
-                        class="nav-link @(currentController == "Room" || currentController == "RoomType" ? "active" : "")"
+                    <a asp-controller="Room"
+                       asp-action="RoomListScreen"
+                       title="Rooms"
+                       class="nav-link @(currentController == "Room" || currentController == "RoomType" ? "active" : "")"
                        style="font-size: 2rem; text-align:center"><i class="fa-solid fa-school-flag"></i></a>
                 </li>
             </ul>
@@ -239,7 +226,6 @@
     }
 
     <!-- Loading animation -->
-
     <!-- Page Content -->
     <div class="content">
         @if (roles != null)
@@ -274,7 +260,7 @@
                 <div class="container-fluid">
                     &copy; 2025 - Classroom Monitoring System - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                 </div>
-        
+
             </footer>
         }
     </div>

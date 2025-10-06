@@ -23,7 +23,7 @@ def enroll():
 @app.route('/verify', methods=['POST'])
 def verify():
     # Example position number
-    position_number = 3
+    position_number = 5
     
     # 👇 Delay for 2 seconds
     time.sleep(2)
@@ -32,7 +32,7 @@ def verify():
         {
             'isSuccessful': True, 
             'message': 'Match found', 
-            'position': 1
+            'position': position_number
         }
     ), 200
 
