@@ -69,6 +69,7 @@ namespace classroom_monitoring_system.Controllers
                     new Claim("Id", fingerprint.User.UserId.ToString()),
                     new Claim(ClaimTypes.Role, fingerprint.User.UserRole.RoleName), // Update to have different roles
                     new Claim("passGuid", DeviceController.passGuid),
+                    new Claim("IsFromDevice", "true"),
                 };
 
                 var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -77,7 +78,7 @@ namespace classroom_monitoring_system.Controllers
                     new ClaimsPrincipal(claimsIdentity));
                 // Successful login
                 // You can set session or authentication cookie here
-                return Json(new { isSuccessful = true, redirectUrl = Url.Action("Index", "Home") });
+                return Json(new { isSuccessful = true, redirectUrl = Url.Action("Dashboard", "Device") });
             }
             else
             {

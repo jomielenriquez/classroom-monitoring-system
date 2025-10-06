@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace classroom_monitoring_system.Controllers
 {
@@ -10,6 +11,16 @@ namespace classroom_monitoring_system.Controllers
             HttpContext.Session.SetString("IsFromDevice", "true");
 
             if (passGuid != passGuid)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            return View();
+        }
+
+        [Authorize(Roles = "Admin, Checker")]
+        public IActionResult Dashboard()
+        {
+            if (HttpContext.Session.GetString("IsFromDevice") != "true")
             {
                 return RedirectToAction("Index", "Login");
             }

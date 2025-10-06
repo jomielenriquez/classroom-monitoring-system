@@ -18,21 +18,34 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    
+</head>
+<body class="raspi">
     @{
-        var isFromDevice = Context.Session.GetString("IsFromDevice") == "true";
+        var isFromDevice = User.Claims.FirstOrDefault(c => c.Type == "IsFromDevice")?.Value == "true";
     }
 
     @if (isFromDevice)
     {
         <style>
-            .raspi, #loadingOverlay, #loadingOverlay2 {
-                margin-right: 32%;
+            :root {
+                --raspi-offset: 32%;
+            }
+
+            /* Push page content for Raspberry Pi layout */
+            .raspi {
+                margin-right: var(--raspi-offset);
+            }
+
+            /* Adjust overlays for Raspberry Pi */
+            #loadingOverlay,
+            #loadingOverlay2 {
+                left: var(--raspi-offset);
+                width: calc(100% - var(--raspi-offset));
             }
         </style>
     }
-</head>
-<body class="raspi">
-    
     <!-- Loading animation -->
     <style>
         /* Centered overlay loader */
@@ -41,7 +54,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 68%;
+            width: 100%;
             height: 100%;
             background: rgba(255, 255, 255, 0.7);
             z-index: 9999;
@@ -69,7 +82,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 68%;
+            width: 100%;
             height: 100%;
             background: rgba(255, 255, 255, 0.9);
             z-index: 9999;
@@ -144,7 +157,7 @@
         var roles = User.FindFirstValue(ClaimTypes.Role);
         var currentUserFullName = User.FindFirstValue(ClaimTypes.Name);
     }
-    @if (roles != null)
+    @if (roles != null && !isFromDevice)
     {
         <!-- Sidebar Toggle (hamburger button) -->
         <nav class="navbar navbar-dark bg-dark d-md-none">
@@ -242,7 +255,7 @@
 
     <!-- Page Content -->
     <div class="content">
-        @if (roles != null)
+        @if (roles != null && !isFromDevice)
         {
             <img src="~/images/logo.png" style="width:80px;" />
             <hr />
@@ -265,10 +278,15 @@
             </div>
             <hr />
         }
+        @if (isFromDevice)
+        {
+            var name = User.FindFirstValue(ClaimTypes.Name);
+            <i> <i class="fa-solid fa-user"></i> @name</i>
+        }
         <div class="container mb-5">
             @RenderBody()
         </div>
-        @if (roles != null)
+        @if (roles != null && !isFromDevice)
         {
             <footer class="border-top footer text-muted" style="width:80% !important">
                 <div class="container-fluid">

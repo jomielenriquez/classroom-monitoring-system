@@ -1,0 +1,14 @@
+﻿@using System.Security.Claims
+@{
+    var roles = User.FindFirstValue(ClaimTypes.Role);
+}
+
+
+@if (roles == "Admin")
+{
+    <a asp-action="" asp-controller=""><i class="fa-solid fa-fingerprint"></i> Add fingerprint</a>
+}
+else if (roles == "Checker")
+{
+    
+}
