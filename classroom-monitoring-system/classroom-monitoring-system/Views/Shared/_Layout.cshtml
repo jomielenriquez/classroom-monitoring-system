@@ -20,107 +20,7 @@
     @await RenderSectionAsync("Scripts", required: false)
 </head>
 <body>
-    <!-- Sidebar -->
-    @{
-        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
-        var roles = User.FindFirstValue(ClaimTypes.Role);
-        var currentUserFullName = User.FindFirstValue(ClaimTypes.Name);
-    }
-    @if (roles != null)
-    {
-        <!-- Sidebar Toggle (hamburger button) -->
-        <nav class="navbar navbar-dark bg-dark d-md-none">
-            <div class="container-fluid">
-                <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
-                    <i class="fa-solid fa-bars fs-1"></i>
-                </button>
-            </div>
-        </nav>
-
-        <!-- Sidebar as Offcanvas for mobile -->
-        <div class="offcanvas offcanvas-start bg-dark text-white d-md-none" tabindex="-1" id="sidebarMenu">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title">Menu</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
-            </div>
-            <div class="offcanvas-body">
-                <ul class="nav nav-pills flex-column">
-                    <li class="nav-item">
-                        <a asp-controller="Home" asp-action="Index" class="nav-link text-white @(currentController == "Home" && currentAction == "Index" ? "active" : "")"><i class="fa-regular fa-house"></i> Home</a>
-                    </li>
-                    <li>
-                        <a asp-controller="Home" asp-action="Index" class="nav-link text-white @(currentController == "Clock" && currentAction == "Index" ? "active" : "")"><i class="fa-regular fa-clock"></i> Clock</a>
-                    </li>
-                    <li>
-                        <a asp-controller="User" asp-action="UserListScreen" class="nav-link text-white @(currentController == "User"? "active" : "")"><i class="fa-solid fa-users-gear"></i> Users</a>
-                    </li>
-                    <li>
-                        <a asp-controller="Room" asp-action="RoomListScreen" class="nav-link text-white @(currentController == "Room" ? "active" : "")"><i class="fa-solid fa-school-flag"></i> Room</a>
-                    </li>
-                    <li>
-                        <a asp-controller="Login" asp-action="Logout" class="nav-link text-white"><i class="fa-solid fa-gear"></i> Settings</a>
-                    </li>
-                    <li>
-                        <a asp-controller="Login" asp-action="Logout" class="nav-link text-white"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Sidebar fixed for larger screens -->
-        <nav class="sidebar d-none d-md-flex flex-column p-3 bg-dark text-white">
-            <a asp-controller="Home" asp-action="Index" class="d-flex justify-content-center align-items-center text-white text-decoration-none p-3">
-                <i class="fa-solid fa-bars fs-1"></i>
-            </a>
-            <hr>
-            <ul class="nav nav-pills flex-column mb-auto">
-                <li class="nav-item">
-                    <a asp-controller="Home" 
-                        asp-action="Index" 
-                        title="Dashboard" 
-                        class="nav-link @(currentController == "Home" && currentAction == "Index" ? "active" : "")"
-                       style="font-size: 2rem; text-align:center"><i class="fa-regular fa-house"></i></a>
-                </li>
-                <li>
-                    <a asp-controller="Attendance" 
-                        asp-action="AttendanceListScreen" 
-                        title="Attendance" class="nav-link @(currentController == "Attendance"? "active" : "")"
-                       style="font-size: 2rem; text-align:center"><i class="fa-regular fa-clock"></i></a>
-                </li>
-                <li>
-                    <a asp-controller="RoomSchedule" 
-                        asp-action="RoomScheduleListScreen" 
-                        title="Room Schedule" 
-                        class="nav-link @(currentController == "RoomSchedule" || currentController == "RoomType" ? "active" : "")"
-                       style="font-size: 2rem; text-align:center"><i class="fa-solid fa-calendar"></i></a>
-                </li>
-                <li>
-                    <a asp-controller="User" 
-                        asp-action="UserListScreen" 
-                        title="Users" 
-                        class="nav-link @(currentController == "User" ? "active" : "")"
-                       style="font-size: 2rem; text-align:center"><i class="fa-solid fa-users-gear"></i></a>
-                </li>
-                <li>
-                    <a asp-controller="Room" 
-                        asp-action="RoomListScreen" 
-                        title="Rooms" 
-                        class="nav-link @(currentController == "Room" || currentController == "RoomType" ? "active" : "")"
-                       style="font-size: 2rem; text-align:center"><i class="fa-solid fa-school-flag"></i></a>
-                </li>
-            </ul>
-            <div class="mt-auto">
-                <a asp-controller="Login" asp-action="Logout" class="nav-link" style="font-size: 2rem;">
-                    <i class="fa-solid fa-gear"></i>
-                </a>
-                <a asp-controller="Login" asp-action="Logout" class="nav-link" style="font-size: 2rem; background-color:#f2cc39; color:#707db5; border-radius:50%;margin-bottom:10px;">
-                    <i class="fa-solid fa-right-from-bracket"></i>
-                </a>
-            </div>
-        </nav>
-    }
-
+    
     <!-- Loading animation -->
     <style>
         /* Centered overlay loader */
@@ -224,6 +124,107 @@
             font-size: 1.2rem;
         }
     </style>
+ 
+    <!-- Sidebar -->
+    @{
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+        var roles = User.FindFirstValue(ClaimTypes.Role);
+        var currentUserFullName = User.FindFirstValue(ClaimTypes.Name);
+    }
+    @if (roles != null)
+    {
+        <!-- Sidebar Toggle (hamburger button) -->
+        <nav class="navbar navbar-dark bg-dark d-md-none">
+            <div class="container-fluid">
+                <button class="btn btn-dark" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu">
+                    <i class="fa-solid fa-bars fs-1"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Sidebar as Offcanvas for mobile -->
+        <div class="offcanvas offcanvas-start bg-dark text-white d-md-none" tabindex="-1" id="sidebarMenu">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title">Menu</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a asp-controller="Home" asp-action="Index" class="nav-link text-white @(currentController == "Home" && currentAction == "Index" ? "active" : "")"><i class="fa-regular fa-house"></i> Home</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Home" asp-action="Index" class="nav-link text-white @(currentController == "Clock" && currentAction == "Index" ? "active" : "")"><i class="fa-regular fa-clock"></i> Clock</a>
+                    </li>
+                    <li>
+                        <a asp-controller="User" asp-action="UserListScreen" class="nav-link text-white @(currentController == "User"? "active" : "")"><i class="fa-solid fa-users-gear"></i> Users</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Room" asp-action="RoomListScreen" class="nav-link text-white @(currentController == "Room" ? "active" : "")"><i class="fa-solid fa-school-flag"></i> Room</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Login" asp-action="Logout" class="nav-link text-white"><i class="fa-solid fa-gear"></i> Settings</a>
+                    </li>
+                    <li>
+                        <a asp-controller="Login" asp-action="Logout" class="nav-link text-white"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sidebar fixed for larger screens -->
+        <nav class="sidebar d-none d-md-flex flex-column p-3 bg-dark text-white">
+            <a asp-controller="Home" asp-action="Index" class="d-flex justify-content-center align-items-center text-white text-decoration-none p-3">
+                <i class="fa-solid fa-bars fs-1"></i>
+            </a>
+            <hr>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a asp-controller="Home" 
+                        asp-action="Index" 
+                        title="Dashboard" 
+                        class="nav-link @(currentController == "Home" && currentAction == "Index" ? "active" : "")"
+                       style="font-size: 2rem; text-align:center"><i class="fa-regular fa-house"></i></a>
+                </li>
+                <li>
+                    <a asp-controller="Attendance" 
+                        asp-action="AttendanceListScreen" 
+                        title="Attendance" class="nav-link @(currentController == "Attendance"? "active" : "")"
+                       style="font-size: 2rem; text-align:center"><i class="fa-regular fa-clock"></i></a>
+                </li>
+                <li>
+                    <a asp-controller="RoomSchedule" 
+                        asp-action="RoomScheduleListScreen" 
+                        title="Room Schedule" 
+                        class="nav-link @(currentController == "RoomSchedule" || currentController == "RoomType" ? "active" : "")"
+                       style="font-size: 2rem; text-align:center"><i class="fa-solid fa-calendar"></i></a>
+                </li>
+                <li>
+                    <a asp-controller="User" 
+                        asp-action="UserListScreen" 
+                        title="Users" 
+                        class="nav-link @(currentController == "User" ? "active" : "")"
+                       style="font-size: 2rem; text-align:center"><i class="fa-solid fa-users-gear"></i></a>
+                </li>
+                <li>
+                    <a asp-controller="Room" 
+                        asp-action="RoomListScreen" 
+                        title="Rooms" 
+                        class="nav-link @(currentController == "Room" || currentController == "RoomType" ? "active" : "")"
+                       style="font-size: 2rem; text-align:center"><i class="fa-solid fa-school-flag"></i></a>
+                </li>
+            </ul>
+            <div class="mt-auto">
+                <a asp-controller="Login" asp-action="Logout" class="nav-link" style="font-size: 2rem;">
+                    <i class="fa-solid fa-gear"></i>
+                </a>
+                <a asp-controller="Login" asp-action="Logout" class="nav-link" style="font-size: 2rem; background-color:#f2cc39; color:#707db5; border-radius:50%;margin-bottom:10px;">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </a>
+            </div>
+        </nav>
+    }
 
     <!-- Loading animation -->
 

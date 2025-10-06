@@ -20,6 +20,21 @@ def enroll():
         'userId': None
     }), 200
 
+@app.route('/verify', methods=['POST'])
+def verify():
+    # Example position number
+    position_number = 3
+    
+    # 👇 Delay for 2 seconds
+    time.sleep(2)
+
+    return jsonify(
+        {
+            'isSuccessful': True, 
+            'message': 'Match found', 
+            'position': 1
+        }
+    ), 200
 
 if __name__ == '__main__':
     app.run(host='localhost', port=5000, debug=True)

@@ -53,11 +53,44 @@ namespace classroom_monitoring_system.Controllers
                 return View("Index");
             }
         }
+        [HttpPost]
+        public async Task<IActionResult> LoginUsingDevice(int positionNumber)
+        {
+            var fingerprint = _context.UserFingerprints
+                .Include(uf => uf.User)
+                .ThenInclude(u => u.UserRole)
+                .FirstOrDefault(uf => uf.PositionNumber == positionNumber);
+
+            if (fingerprint != null)
+            {
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, fingerprint.User.FirstName + " " + fingerprint.User.LastName),
+                    new Claim("Id", fingerprint.User.UserId.ToString()),
+                    new Claim(ClaimTypes.Role, fingerprint.User.UserRole.RoleName), // Update to have different roles
+                    new Claim("passGuid", DeviceController.passGuid),
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    new ClaimsPrincipal(claimsIdentity));
+                // Successful login
+                // You can set session or authentication cookie here
+                return Json(new { isSuccessful = true, redirectUrl = Url.Action("Index", "Home") });
+            }
+            else
+            {
+                // Invalid credentials
+                ViewBag.ErrorMessage = "Invalid username or password.";
+                return Json(new { isSuccessful = true, redirectUrl = Url.Action("Index", "Home") });
+            }
+        }
         [Authorize]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Login");
+            return Json(new { isSuccessful = false, message = "Invalid fingerprint." });
         }
     }
 }
