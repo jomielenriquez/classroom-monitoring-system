@@ -23,6 +23,8 @@ public partial class MonitorDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+    public virtual DbSet<UserFingerprint> UserFingerprints { get; set; }
+
     public virtual DbSet<UserRole> UserRoles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -99,6 +101,21 @@ public partial class MonitorDbContext : DbContext
                 .HasForeignKey(d => d.UserRoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Users_UserRoleId");
+        });
+
+        modelBuilder.Entity<UserFingerprint>(entity =>
+        {
+            entity.HasNoKey();
+
+            entity.Property(e => e.CreatedDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.UserFingerprintId).HasDefaultValueSql("(newid())");
+
+            entity.HasOne(d => d.User).WithMany()
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_UserFingerprint_UserId");
         });
 
         modelBuilder.Entity<UserRole>(entity =>
