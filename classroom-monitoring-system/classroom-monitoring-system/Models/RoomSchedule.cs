@@ -21,7 +21,11 @@ public partial class RoomSchedule
 
     public string? Note { get; set; }
 
+    public Guid SubjectId { get; set; }
+
     public virtual User ProfessorUser { get; set; } = null!;
 
     public virtual Room Room { get; set; } = null!;
+
+    public virtual Subject Subject { get; set; } = null!;
 }

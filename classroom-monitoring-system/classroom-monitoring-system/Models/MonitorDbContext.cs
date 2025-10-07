@@ -21,6 +21,8 @@ public partial class MonitorDbContext : DbContext
 
     public virtual DbSet<RoomType> RoomTypes { get; set; }
 
+    public virtual DbSet<Subject> Subjects { get; set; }
+
     public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<UserFingerprint> UserFingerprints { get; set; }
@@ -68,6 +70,11 @@ public partial class MonitorDbContext : DbContext
                 .HasForeignKey(d => d.RoomId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_RoomShcedule_RoomId");
+
+            entity.HasOne(d => d.Subject).WithMany(p => p.RoomSchedules)
+                .HasForeignKey(d => d.SubjectId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RoomSchedule_SubjectId");
         });
 
         modelBuilder.Entity<RoomType>(entity =>
@@ -81,6 +88,18 @@ public partial class MonitorDbContext : DbContext
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
             entity.Property(e => e.RoomTypeName).HasMaxLength(100);
+        });
+
+        modelBuilder.Entity<Subject>(entity =>
+        {
+            entity.HasKey(e => e.SubjectId);//.HasName("PK__Subject__AC1BA3A88EFA36B8");
+
+            entity.ToTable("Subject");
+
+            entity.Property(e => e.SubjectId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.SubjectDescription).HasMaxLength(50);
+            entity.Property(e => e.SubjectName).HasMaxLength(50);
         });
 
         modelBuilder.Entity<User>(entity =>
