@@ -93,5 +93,11 @@ namespace classroom_monitoring_system.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Login");
         }
+        [Authorize]
+        public async Task<IActionResult> LogoutUsingDevice()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Device");
+        }
     }
 }

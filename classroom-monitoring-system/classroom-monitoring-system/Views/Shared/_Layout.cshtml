@@ -23,7 +23,12 @@
 </head>
 <body class="raspi">
     @{
-        var isFromDevice = User.Claims.FirstOrDefault(c => c.Type == "IsFromDevice")?.Value == "true";
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+        var roles = User.FindFirstValue(ClaimTypes.Role);
+        var currentUserFullName = User.FindFirstValue(ClaimTypes.Name);
+
+        var isFromDevice = User.Claims.FirstOrDefault(c => c.Type == "IsFromDevice")?.Value == "true" || currentController == "Device";
     }
 
     @if (isFromDevice)
@@ -38,12 +43,6 @@
                 margin-right: var(--raspi-offset);
             }
 
-            /* Adjust overlays for Raspberry Pi */
-            #loadingOverlay,
-            #loadingOverlay2 {
-                left: var(--raspi-offset);
-                width: calc(100% - var(--raspi-offset));
-            }
         </style>
     }
     <!-- Loading animation -->
@@ -54,7 +53,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
+            width: 67%;
             height: 100%;
             background: rgba(255, 255, 255, 0.7);
             z-index: 9999;
@@ -82,7 +81,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
+            width: 67%;
             height: 100%;
             background: rgba(255, 255, 255, 0.9);
             z-index: 9999;
@@ -151,12 +150,7 @@
     </style>
  
     <!-- Sidebar -->
-    @{
-        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
-        var roles = User.FindFirstValue(ClaimTypes.Role);
-        var currentUserFullName = User.FindFirstValue(ClaimTypes.Name);
-    }
+    
     @if (roles != null && !isFromDevice)
     {
         <!-- Sidebar Toggle (hamburger button) -->
@@ -278,7 +272,7 @@
             </div>
             <hr />
         }
-        @if (isFromDevice)
+        @if (isFromDevice && !(currentController == "Device" && currentAction == "Login"))
         {
             var name = User.FindFirstValue(ClaimTypes.Name);
             <i> <i class="fa-solid fa-user"></i> @name</i>
