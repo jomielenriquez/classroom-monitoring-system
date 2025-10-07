@@ -123,7 +123,23 @@ namespace classroom_monitoring_system.Controllers
             }
             return Json(new { isSuccessful = true, message = "Professor is in the correct room" });
         }
-
+        //public IActionResult AvailableRoom([FromBody] CheckAssignmentRequest request)
+        //{
+        //    var editModel = new FingerprintScreenModel()
+        //    {
+        //        Users = _user
+        //            .GetByConditionAndIncludes(x =>
+        //                x.UserId != null, "UserRole", "UserFingerprints")
+        //            .Select(x => new
+        //            {
+        //                UserId = x.UserId,
+        //                FullName = x.FirstName + " " + x.LastName + " (" + x.UserFingerprints.Count() + " enrolled)"
+        //            })
+        //            .Cast<object>().ToList(),
+        //        Rooms = _roomRepository.GetByConditionAndIncludes(x => x.).Cast<object>().ToList()
+        //    };
+        //    return View(editModel);
+        //}
         public class FingerprintRequest
         {
             public int PositionNumber { get; set; }
