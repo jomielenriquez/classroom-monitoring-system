@@ -101,7 +101,13 @@ device = {
                 );
             }
         } catch (error) {
-            console.error("Error:", error);
+            error.displayError(
+                "An error occured",
+                error,
+                function () {
+                    $('#errorOverlay').css('display', 'none');
+                }
+            );
         } finally {
             $('#loadingOverlay2').css('display', 'none');
         }
@@ -132,12 +138,25 @@ monitoring = {
             if (result.redirectUrl) {
                 window.location.href = result.redirectUrl;
             } else if (!result.isSuccessful) {
+                error.displayError(
+                    "Error",
+                    result.message,
+                    function () {
+                        $('#errorOverlay').css('display', 'none');
+                    }
+                );
             } else {
                 console.log(result);
             }
 
         } catch (error) {
-            console.error("Error:", error);
+            error.displayError(
+                "An error occured",
+                error,
+                function () {
+                    $('#errorOverlay').css('display', 'none');
+                }
+            );
         } finally {
             $('#loadingOverlay').css('display', 'none');
         }
@@ -175,7 +194,7 @@ fingerPrint = {
             } else {
                 error.displayError(
                     "An error occured",
-                    "Invalid fingerprint",
+                    result.message,
                     function () {
                         $('#errorOverlay').css('display', 'none');
                     }
@@ -183,7 +202,13 @@ fingerPrint = {
             } 
 
         } catch (error) {
-            console.error("Error:", error);
+            error.displayError(
+                "An error occured",
+                error,
+                function () {
+                    $('#errorOverlay').css('display', 'none');
+                }
+            );
         } finally {
             $('#loadingOverlay').css('display', 'none');
         }

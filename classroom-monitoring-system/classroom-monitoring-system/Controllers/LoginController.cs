@@ -54,12 +54,19 @@ namespace classroom_monitoring_system.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> LoginUsingDevice(int positionNumber)
+        public async Task<IActionResult> LoginUsingDevice([FromBody] LoginRequest request)
         {
+            var prof = _context.UserRoles.FirstOrDefault(x => x.RoleName == "Professor");
+
             var fingerprint = _context.UserFingerprints
                 .Include(uf => uf.User)
                 .ThenInclude(u => u.UserRole)
-                .FirstOrDefault(uf => uf.PositionNumber == positionNumber);
+                .FirstOrDefault(uf => uf.PositionNumber == request.positionNumber);
+
+            if (fingerprint.User.UserRoleId == prof.UserRoleId)
+            {
+                return Json(new { isSuccessful = false, message = "Professors are not allowed to login to this device." });
+            }
 
             if (fingerprint != null)
             {
@@ -98,6 +105,11 @@ namespace classroom_monitoring_system.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Device");
+        }
+
+        public class LoginRequest
+        {
+            public int positionNumber { get; set; }
         }
     }
 }

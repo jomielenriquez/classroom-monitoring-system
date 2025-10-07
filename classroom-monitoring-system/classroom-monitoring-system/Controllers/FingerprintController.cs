@@ -20,11 +20,11 @@ namespace classroom_monitoring_system.Controllers
             {
                 Users = _user
                     .GetByConditionAndIncludes(x => 
-                        x.UserId != null, "UserRole")
+                        x.UserId != null, "UserRole", "UserFingerprints")
                     .Select(x => new
                     {
                         UserId = x.UserId,
-                        FullName = x.FirstName + " " + x.LastName
+                        FullName = x.FirstName + " " + x.LastName + " (" + x.UserFingerprints.Count() + " enrolled)"
                     })
                     .Cast<object>().ToList()
             };
@@ -36,6 +36,12 @@ namespace classroom_monitoring_system.Controllers
             if (request.PositionNumber == null || request.UserId == null)
             {
                 return Json(new { isSuccessful = false, message = "Invalid fingerprint." });
+            }
+
+            var fingerprint = _userFingerprint.GetByCondition(x => x.PositionNumber == request.PositionNumber);
+            if (fingerprint.Any())
+            {
+                return Json(new { isSuccessful = false, message = "Fingerprint is already enrolled." });
             }
 
             var newFingerprint = new UserFingerprint

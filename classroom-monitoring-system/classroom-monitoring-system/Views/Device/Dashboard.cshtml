@@ -10,11 +10,19 @@
     <div class="card-body">
         @if (roles == "Admin")
         {
-                <a asp-action="AddFingerPrint" asp-controller="Fingerprint" class="btn btn-danger"><i class="fa-solid fa-fingerprint"></i> Add fingerprint</a>
+            <a asp-action="AddFingerPrint" 
+               asp-controller="Fingerprint" 
+               class="btn btn-danger">
+                    <i class="fa-solid fa-fingerprint"></i> Add fingerprint
+            </a>
         }
         else if (roles == "Checker")
         {
-    
+            <a asp-action="AddFingerPrint" 
+               asp-controller="Fingerprint" 
+               class="btn btn-danger">
+                    <i class="fa-solid fa-check-to-slot"></i> Check Rooms
+            </a>
         }
     </div>
     <div class="card-footer text-muted">

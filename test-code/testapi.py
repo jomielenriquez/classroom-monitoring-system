@@ -23,7 +23,7 @@ def enroll():
 @app.route('/verify', methods=['POST'])
 def verify():
     # Example position number
-    position_number = 5
+    position_number = 7
     
     # 👇 Delay for 2 seconds
     time.sleep(2)
