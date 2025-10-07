@@ -1,16 +1,36 @@
-﻿device = {
-    enrollFingerPrint: async function (userId) {
+﻿error = {
+    displayError: function (title, message, btn) {
+        $("#errorTitle").html(title);
+        $("#errorMessage").html(message);
+        $('#errorOverlay').css('display', 'flex');
+        // Overwrite existing click handler
+        const scanBtn = document.getElementById('modalBtn');
+        scanBtn.onclick = null; // clear previous click events
+        scanBtn.onclick = btn;  // assign new one
+    }
+}
+device = {
+    enrollFingerPrint: async function (vars) {
+        if (vars.userId == null || vars.userId == undefined || vars.userId == "") {
+            error.displayError(
+                "An error occured",
+                "Please select user",
+                function () {
+                    $('#errorOverlay').css('display', 'none');
+                }
+            );
+            return;
+        }
+
         $('#loadingOverlay2').css('display', 'flex');
 
         try {
-            loadingOverlay2.style.display = 'flex';
-
             const response = await fetch("http://localhost:5000/enroll", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ userId: userId })
+                body: JSON.stringify({ userId: vars.userId })
             });
 
             if (!response.ok) {
@@ -19,7 +39,6 @@
 
             const result = await response.json();
 
-            loadingOverlay.style.display = 'none';
         } catch (error) {
             console.error("Error:", error);
         } finally {

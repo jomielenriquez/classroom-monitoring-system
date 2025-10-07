@@ -1,0 +1,25 @@
+﻿@model classroom_monitoring_system.Models.FingerprintScreenModel
+<script src="~/js/Device.js"></script>
+
+<div class="card text-center">
+    <div class="card-header">
+        Add New Fingerprint
+    </div>
+    <div class="card-body">
+        <Custom:Dropdown items="@Model.Users"
+                         id="UserId"
+                         label="User"
+                         key-property="UserId"
+                         value-property="FullName"
+                         selected-value="@Model.SelectedUser"
+                         is-required="true">
+        </Custom:Dropdown>
+        <a onclick="device.enrollFingerPrint({userId : $('#UserId').val()})"
+           class="btn btn-danger">
+            <i class="fa-solid fa-fingerprint"></i> Start Scanning
+        </a>
+    </div>
+    <div class="card-footer text-muted">
+        <a asp-action="Dashboard" asp-controller="Device" class="btn btn-secondary"><i class="fa-solid fa-table-columns"></i> Dashboard</a>
+    </div>
+</div>

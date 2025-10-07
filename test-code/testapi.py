@@ -14,8 +14,8 @@ def enroll():
     time.sleep(2)
 
     return jsonify({
-        'isSuccessful': False,
-        'message': f'Fingerprint already enrolled at position {position_number}',
+        'isSuccessful': True,
+        'message': 'Enrolled successfully',
         'position': position_number,
         'userId': None
     }), 200

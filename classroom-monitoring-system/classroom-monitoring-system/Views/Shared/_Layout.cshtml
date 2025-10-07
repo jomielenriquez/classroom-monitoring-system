@@ -35,7 +35,7 @@
     {
         <style>
             :root {
-                --raspi-offset: 32%;
+                --raspi-offset: 35%;
             }
 
             /* Push page content for Raspberry Pi layout */
@@ -44,7 +44,10 @@
                 overflow: hidden;
             }
             .content{
-                padding:5px;
+                padding:0px;
+            }
+            .container{
+                padding:2px;
             }
 
         </style>
@@ -52,12 +55,12 @@
     <!-- Loading animation -->
     <style>
         /* Centered overlay loader */
-        #loadingOverlay {
+        #loadingOverlay, #errorOverlay {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
-            width: 67%;
+            width: 65%;
             height: 100%;
             background: rgba(255, 255, 255, 0.7);
             z-index: 9999;
@@ -65,6 +68,23 @@
             align-items: center;
         }
     </style>
+
+    <div id="errorOverlay">
+        <div class="card text-center">
+            <div class="card-header" id="errorTitle">
+                
+            </div>
+            <div class="card-body" id="errorMessage">
+                Error
+            </div>
+            <div class="card-footer text-muted">
+                <a id="modalBtn"
+                   class="btn btn-secondary">
+                    OK
+                </a>
+            </div>
+        </div>
+    </div>
 
     <div id="loadingOverlay">
         <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
@@ -85,7 +105,7 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 67%;
+            width: 65%;
             height: 100%;
             background: rgba(255, 255, 255, 0.9);
             z-index: 9999;
