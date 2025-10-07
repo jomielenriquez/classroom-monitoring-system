@@ -41,6 +41,10 @@
             /* Push page content for Raspberry Pi layout */
             .raspi {
                 margin-right: var(--raspi-offset);
+                overflow: hidden;
+            }
+            .content{
+                padding:5px;
             }
 
         </style>
@@ -216,7 +220,7 @@
                     <a asp-controller="RoomSchedule" 
                         asp-action="RoomScheduleListScreen" 
                         title="Room Schedule" 
-                        class="nav-link @(currentController == "RoomSchedule" || currentController == "RoomType" ? "active" : "")"
+                        class="nav-link @(currentController == "RoomSchedule" ? "active" : "")"
                        style="font-size: 2rem; text-align:center"><i class="fa-solid fa-calendar"></i></a>
                 </li>
                 <li>

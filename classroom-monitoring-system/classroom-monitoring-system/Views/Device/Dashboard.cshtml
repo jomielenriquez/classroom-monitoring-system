@@ -3,14 +3,22 @@
     var roles = User.FindFirstValue(ClaimTypes.Role);
 }
 
-
-@if (roles == "Admin")
-{
-    <a asp-action="" asp-controller=""><i class="fa-solid fa-fingerprint"></i> Add fingerprint</a>
-}
-else if (roles == "Checker")
-{
+<div class="card text-center">
+    <div class="card-header">
+        Welcome
+    </div>
+    <div class="card-body">
+        @if (roles == "Admin")
+        {
+                <a asp-action="" asp-controller="" class="btn btn-danger"><i class="fa-solid fa-fingerprint"></i> Add fingerprint</a>
+        }
+        else if (roles == "Checker")
+        {
     
-}
-
-    <a asp-action="LogoutUsingDevice" asp-controller="Login"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        }
+    </div>
+    <div class="card-footer text-muted">
+        <a asp-action="LogoutUsingDevice" asp-controller="Login" class="btn btn-secondary"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
+</div>
+    
