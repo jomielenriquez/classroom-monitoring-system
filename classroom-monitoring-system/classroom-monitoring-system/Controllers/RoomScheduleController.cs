@@ -15,15 +15,18 @@ namespace classroom_monitoring_system.Controllers
         private readonly IBaseRepository<User> _userRepository;
         private readonly IBaseRepository<UserRole> _userRoleRepository;
         private readonly IBaseRepository<RoomSchedule> _roomSchedule;
+        private readonly IBaseRepository<Subject> _subjectRepository;
         public RoomScheduleController(IBaseRepository<RoomSchedule> roomScheduleRepository,
             IBaseRepository<Room> roomRespository, IBaseRepository<User> userRepository,
-            IBaseRepository<UserRole> userRoleRepository)
+            IBaseRepository<UserRole> userRoleRepository, 
+            IBaseRepository<Subject> subjectRepository)
         {
             _roomScheduleService = new RoomScheduleRepository(roomScheduleRepository);
             _roomRespository = roomRespository;
             _userRepository = userRepository;
             _userRoleRepository = userRoleRepository;
             _roomSchedule = roomScheduleRepository;
+            _subjectRepository = subjectRepository;
         }
         [Authorize(Roles = "Admin")]
         public IActionResult RoomScheduleListScreen(PageModel pageModel)
@@ -80,6 +83,7 @@ namespace classroom_monitoring_system.Controllers
             {
                 Data = result.Data,
                 Room = _roomRespository.GetAll().Cast<object>().ToList(),
+                Subject = _subjectRepository.GetAll().Cast<object>().ToList(),
                 Users = _userRepository
                     .GetByConditionAndIncludes(x => 
                         x.UserRole.UserRoleId == professorRole.UserRoleId)
@@ -109,6 +113,7 @@ namespace classroom_monitoring_system.Controllers
                 {
                     Data = result.Data,
                     Room = _roomRespository.GetAll().Cast<object>().ToList(),
+                    Subject = _subjectRepository.GetAll().Cast<object>().ToList(),
                     Users = _userRepository
                         .GetByConditionAndIncludes(x =>
                             x.UserRole.UserRoleId == professorRole.UserRoleId)

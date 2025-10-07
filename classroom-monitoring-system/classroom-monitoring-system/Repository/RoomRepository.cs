@@ -51,6 +51,7 @@ namespace classroom_monitoring_system.Repository
             }
             if (room.RoomId == Guid.Empty)
             {
+                room.CreatedDate = DateTime.Now;
                 result.Data = _roomRepository.Save(room);
             }
             else

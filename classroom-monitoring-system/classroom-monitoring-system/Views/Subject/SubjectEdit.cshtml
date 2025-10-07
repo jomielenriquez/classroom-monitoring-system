@@ -1,0 +1,52 @@
+﻿@using classroom_monitoring_system.Models
+@using System.Security.Claims
+@model EditScreenModel<Subject>
+@{
+    ViewData["Title"] = "Subject Edit Screen";
+}
+@if (Model.ErrorMessages != null)
+{
+    <br />
+    <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <div>
+            @foreach (var error in Model.ErrorMessages)
+            {
+                <div>@error</div>
+            }
+        </div>
+    </div>
+}
+
+<div class="card mb-3">
+    <div class="card-header">Subject</div>
+    <div class="card-body">
+        <Custom:Form id="Subject"
+                     submit-tag="Save"
+                     controller="Subject"
+                     action="Save"
+                     cancel-redirect="/Subject/SubjectListScreen">
+            <Custom:TextBox id="SubjectId"
+                            label="SubjectId"
+                            type="text"
+                            value="@Model.Data.SubjectId"
+                            is-hidden="true"
+                            placeholder="">
+            </Custom:TextBox>
+            <Custom:TextBox id="SubjectName"
+                            label="Subject Name"
+                            type="text"
+                            value="@Model.Data.SubjectName"
+                            placeholder="Enter Subject Name"
+                            is-required="true">
+            </Custom:TextBox>
+            <Custom:TextBox id="SubjectDescription"
+                            label="Description"
+                            type="text"
+                            value="@Model.Data.SubjectDescription"
+                            placeholder="Enter Description"
+                            is-required="true">
+            </Custom:TextBox>
+        </Custom:Form>
+    </div>
+</div>

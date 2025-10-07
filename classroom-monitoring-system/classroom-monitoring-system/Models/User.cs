@@ -21,6 +21,8 @@ public partial class User
 
     public string Email { get; set; } = null!;
 
+    public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
+
     public virtual ICollection<RoomSchedule> RoomSchedules { get; set; } = new List<RoomSchedule>();
 
     public virtual ICollection<UserFingerprint> UserFingerprints { get; set; } = new List<UserFingerprint>();

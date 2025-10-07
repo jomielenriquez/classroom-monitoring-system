@@ -23,6 +23,8 @@ public partial class RoomSchedule
 
     public Guid SubjectId { get; set; }
 
+    public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
+
     public virtual User ProfessorUser { get; set; } = null!;
 
     public virtual Room Room { get; set; } = null!;

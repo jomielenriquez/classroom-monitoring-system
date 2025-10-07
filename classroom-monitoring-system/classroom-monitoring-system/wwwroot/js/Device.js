@@ -9,6 +9,7 @@
         scanBtn.onclick = btn;  // assign new one
     }
 }
+
 device = {
     enrollFingerPrint: async function (vars) {
         if (vars.userId == null || vars.userId == undefined || vars.userId == "") {
@@ -55,13 +56,7 @@ device = {
             }
 
         } catch (error) {
-            error.displayError(
-                "An error occured",
-                error,
-                function () {
-                    $('#errorOverlay').css('display', 'none');
-                }
-            );
+            
         } finally {
             $('#loadingOverlay2').css('display', 'none');
         }
@@ -101,13 +96,47 @@ device = {
                 );
             }
         } catch (error) {
-            error.displayError(
-                "An error occured",
-                error,
-                function () {
-                    $('#errorOverlay').css('display', 'none');
-                }
-            );
+            
+        } finally {
+            $('#loadingOverlay2').css('display', 'none');
+        }
+    },
+    verifyRoom: async function (vars) {
+        $('#loadingOverlay2').css('display', 'flex');
+
+        try {
+            loadingOverlay2.style.display = 'flex';
+
+            const response = await fetch("http://localhost:5000/verify", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+
+            // Hide the loader
+            loadingOverlay.style.display = 'none';
+
+            if (result.isSuccessful) {
+                monitoring.checkAssignment({ position: result.position, roomId: vars.roomId });
+            }
+            else {
+                error.displayError(
+                    "An error occured",
+                    "Invalid fingerprint",
+                    function () {
+                        $('#errorOverlay').css('display', 'none');
+                    }
+                );
+            }
+        } catch (error) {
+
         } finally {
             $('#loadingOverlay2').css('display', 'none');
         }
@@ -150,13 +179,52 @@ monitoring = {
             }
 
         } catch (error) {
-            error.displayError(
-                "An error occured",
-                error,
-                function () {
-                    $('#errorOverlay').css('display', 'none');
-                }
-            );
+            
+        } finally {
+            $('#loadingOverlay').css('display', 'none');
+        }
+    },
+    checkAssignment: async function (vars) {
+        $('#loadingOverlay').css('display', 'flex');
+        try {
+            loadingOverlay2.style.display = 'flex';
+
+            const response = await fetch("/Fingerprint/CheckAssignmentLoginUsingDevice", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ positionNumber: vars.position, roomId: vars.roomId })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+
+            if (result.isSuccessful) {
+                error.displayError(
+                    "Success",
+                    result.message,
+                    function () {
+                        $('#errorOverlay').css('display', 'none');
+                    }
+                );
+            } else if (!result.isSuccessful) {
+                error.displayError(
+                    "Error",
+                    result.message,
+                    function () {
+                        $('#errorOverlay').css('display', 'none');
+                    }
+                );
+            } else {
+                console.log(result);
+            }
+
+        } catch (error) {
+
         } finally {
             $('#loadingOverlay').css('display', 'none');
         }
@@ -202,13 +270,7 @@ fingerPrint = {
             } 
 
         } catch (error) {
-            error.displayError(
-                "An error occured",
-                error,
-                function () {
-                    $('#errorOverlay').css('display', 'none');
-                }
-            );
+            
         } finally {
             $('#loadingOverlay').css('display', 'none');
         }

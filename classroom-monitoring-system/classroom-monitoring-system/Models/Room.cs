@@ -17,6 +17,8 @@ public partial class Room
 
     public DateTime CreatedDate { get; set; }
 
+    public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
+
     public virtual ICollection<RoomSchedule> RoomSchedules { get; set; } = new List<RoomSchedule>();
 
     public virtual RoomType RoomType { get; set; } = null!;

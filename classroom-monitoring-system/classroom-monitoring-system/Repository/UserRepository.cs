@@ -74,6 +74,7 @@ namespace classroom_monitoring_system.Repository
             if (user.UserId == Guid.Empty)
             {
                 user.Password = LoginRepository.ComputeMd5Hash(user.Password);
+                user.CreatedDate = DateTime.Now;
                 result.Data = _userRepository.Save(user);
             }
             else

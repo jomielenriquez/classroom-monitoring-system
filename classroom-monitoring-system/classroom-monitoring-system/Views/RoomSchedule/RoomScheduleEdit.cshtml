@@ -50,6 +50,14 @@
                                      selected-value="@Model.Data.RoomId"
                                      is-required="true">
                     </Custom:Dropdown>
+                    <Custom:Dropdown items="@Model.Subject"
+                                     id="SubjectId"
+                                     label="Subject"
+                                     key-property="SubjectId"
+                                     value-property="SubjectName"
+                                     selected-value="@Model.Data.SubjectId"
+                                     is-required="true">
+                    </Custom:Dropdown>
                     <Custom:TextBox id="DateOfUse"
                                     label="Date"
                                     type="date"

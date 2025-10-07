@@ -115,7 +115,7 @@ namespace classroom_monitoring_system.Repository
 
             var listScreen = new ListScreenModel<RoomScheduleSearchModel>()
             {
-                Data = _roomScheduleRepository.GetAllWithOptionsAndIncludes(pageModel, filter, "ProfessorUser", "Room").Cast<object>().ToList(),
+                Data = _roomScheduleRepository.GetAllWithOptionsAndIncludes(pageModel, filter, "ProfessorUser", "Room", "Subject").Cast<object>().ToList(),
                 Page = 1,
                 PageSize = pageModel.PageSize,
                 DataCount = _roomScheduleRepository.GetCountWithOptions(pageModel, filter),

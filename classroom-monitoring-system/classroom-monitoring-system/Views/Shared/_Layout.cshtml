@@ -27,6 +27,7 @@
         var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
         var roles = User.FindFirstValue(ClaimTypes.Role);
         var currentUserFullName = User.FindFirstValue(ClaimTypes.Name);
+        var userId = User.FindFirstValue("Id");
 
         var isFromDevice = User.Claims.FirstOrDefault(c => c.Type == "IsFromDevice")?.Value == "true" || currentController == "Device";
     }
@@ -209,6 +210,9 @@
                             <a asp-controller="Room" asp-action="RoomListScreen" class="nav-link text-white @(currentController == "Room" ? "active" : "")"><i class="fa-solid fa-school-flag"></i> Room</a>
                         </li>
                         <li>
+                            <a asp-controller="Subject" asp-action="SubjectListScreen" class="nav-link text-white"><i class="fa-solid fa-book"></i> Subject</a>
+                        </li>
+                        <li>
                             <a asp-controller="Login" asp-action="Logout" class="nav-link text-white"><i class="fa-solid fa-gear"></i> Settings</a>
                         </li>
                         <li>
@@ -262,10 +266,17 @@
                             class="nav-link @(currentController == "Room" || currentController == "RoomType" ? "active" : "")"
                            style="font-size: 2rem; text-align:center"><i class="fa-solid fa-school-flag"></i></a>
                     </li>
+                    <li>
+                        <a asp-controller="Subject"
+                           asp-action="SubjectListScreen"
+                           title="Subject"
+                           class="nav-link @(currentController == "Subject" ? "active" : "")"
+                           style="font-size: 2rem; text-align:center"><i class="fa-solid fa-book"></i></a>
+                    </li>
                 }
             </ul>
             <div class="mt-auto">
-                <a asp-controller="Login" asp-action="Logout" class="nav-link" style="font-size: 2rem;">
+                <a href="/User/UserEdit?UserId=@userId" class="nav-link" style="font-size: 2rem;">
                     <i class="fa-solid fa-gear"></i>
                 </a>
                 <a asp-controller="Login" asp-action="Logout" class="nav-link" style="font-size: 2rem; background-color:#f2cc39; color:#707db5; border-radius:50%;margin-bottom:10px;">

@@ -11,6 +11,7 @@
         public List<object> RoomType { get; set; }
         public List<object> Room { get; set; }
         public List<object> Professor { get; set; }
+        public List<object> Subject { get; set; }
         public List<User> ListOfUsers { get; set; }
     }
 }

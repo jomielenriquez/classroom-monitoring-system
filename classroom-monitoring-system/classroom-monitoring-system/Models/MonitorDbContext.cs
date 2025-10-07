@@ -15,6 +15,8 @@ public partial class MonitorDbContext : DbContext
     {
     }
 
+    public virtual DbSet<Attendance> Attendances { get; set; }
+
     public virtual DbSet<Room> Rooms { get; set; }
 
     public virtual DbSet<RoomSchedule> RoomSchedules { get; set; }
@@ -31,6 +33,31 @@ public partial class MonitorDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Attendance>(entity =>
+        {
+            entity.HasKey(e => e.AttendanceId);//.HasName("PK__Attendan__8B69261CAD655571");
+
+            entity.ToTable("Attendance");
+
+            entity.Property(e => e.AttendanceId).HasDefaultValueSql("(newid())");
+            entity.Property(e => e.CreatedDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+
+            entity.HasOne(d => d.Professor).WithMany(p => p.Attendances)
+                .HasForeignKey(d => d.ProfessorId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Attendance_ProfessorID");
+
+            entity.HasOne(d => d.RoomReassignment).WithMany(p => p.Attendances)
+                .HasForeignKey(d => d.RoomReassignmentId)
+                .HasConstraintName("FK_Attendance_RoomReassignmentId");
+
+            entity.HasOne(d => d.RoomSchedule).WithMany(p => p.Attendances)
+                .HasForeignKey(d => d.RoomScheduleId)
+                .HasConstraintName("FK_Attendance_RoomScheduleId");
+        });
+
         modelBuilder.Entity<Room>(entity =>
         {
             entity.HasKey(e => e.RoomId);//.HasName("PK__Room__32863939BE9309AF");
@@ -97,7 +124,9 @@ public partial class MonitorDbContext : DbContext
             entity.ToTable("Subject");
 
             entity.Property(e => e.SubjectId).HasDefaultValueSql("(newid())");
-            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.CreatedDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
             entity.Property(e => e.SubjectDescription).HasMaxLength(50);
             entity.Property(e => e.SubjectName).HasMaxLength(50);
         });

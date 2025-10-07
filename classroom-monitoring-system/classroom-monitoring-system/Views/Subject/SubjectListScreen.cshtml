@@ -1,0 +1,44 @@
+﻿@using classroom_monitoring_system.Models
+@model ListScreenModel<SubjectSearchModel>
+@{
+    ViewData["Title"] = "Subject List Screen";
+}
+<div class="card">
+    <div class="card-body">
+        <Custom:ActionItems caption="Subject"
+                            template="Default"
+                            id="SubjectID"
+                            table="SubjectTableID"
+                            controller="Subject"
+                            delete-action="Delete"
+                            edit-action="SubjectEdit">
+        </Custom:ActionItems>
+        <div class="mb-3">
+            <a asp-controller="Room" asp-action="RoomListScreen" class="btn btn-link btn-sm"><i class="fa-solid fa-school-flag"></i> Rooms</a>
+        </div>
+        <Custom:SearchForm id="SubjectSearchForm"
+                           controller="Subject"
+                           action="SubjectSearch">
+            <Custom:TextBox id="SubjectName"
+                            label="Subject Name"
+                            type="text"
+                            value="@Model.SearchModel.SubjectName"
+                            placeholder="Enter name">
+            </Custom:TextBox>
+        </Custom:SearchForm>
+        <div class="table-responsive">
+            <Custom:Table id="SubjectTableID"
+                          items="Model.Data"
+                          count="Model.DataCount"
+                          page="Model.PageMode"
+                          selection-mode="Multiple"
+                          property="SubjectId"
+                          route="/Subject/SubjectListScreen"
+                          url="/Subject/SubjectEdit?SubjectId="
+                          column=1>
+                <Table:Column property="SubjectName" caption="Subject Name"></Table:Column>
+                <Table:Column property="SubjectDescription" caption="Description"></Table:Column>
+            </Custom:Table>
+        </div>
+    </div>
+</div>
