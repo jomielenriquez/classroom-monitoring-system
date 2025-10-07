@@ -54,6 +54,23 @@ namespace classroom_monitoring_system.Controllers
             return Json(new { isSuccessful = true, message = "Succefully Saved" });
         }
 
+        public IActionResult CheckRoom()
+        {
+            var editModel = new FingerprintScreenModel()
+            {
+                Users = _user
+                    .GetByConditionAndIncludes(x =>
+                        x.UserId != null, "UserRole", "UserFingerprints")
+                    .Select(x => new
+                    {
+                        UserId = x.UserId,
+                        FullName = x.FirstName + " " + x.LastName + " (" + x.UserFingerprints.Count() + " enrolled)"
+                    })
+                    .Cast<object>().ToList()
+            };
+            return View(editModel);
+        }
+
         public class FingerprintRequest
         {
             public int PositionNumber { get; set; }
