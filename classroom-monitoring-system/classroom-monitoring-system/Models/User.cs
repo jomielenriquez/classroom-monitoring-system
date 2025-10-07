@@ -23,5 +23,7 @@ public partial class User
 
     public virtual ICollection<RoomSchedule> RoomSchedules { get; set; } = new List<RoomSchedule>();
 
+    public virtual ICollection<UserFingerprint> UserFingerprints { get; set; } = new List<UserFingerprint>();
+
     public virtual UserRole UserRole { get; set; } = null!;
 }

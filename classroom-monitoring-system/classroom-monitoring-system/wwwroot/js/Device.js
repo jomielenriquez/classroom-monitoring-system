@@ -39,8 +39,29 @@ device = {
 
             const result = await response.json();
 
+            if (result.isSuccessful) {
+                result.userId = vars.userId;
+                console.log(result);
+                fingerPrint.saveFingerPrint(result);
+            }
+            else {
+                error.displayError(
+                    "An error occured",
+                    "Invalid fingerprint",
+                    function () {
+                        $('#errorOverlay').css('display', 'none');
+                    }
+                );
+            }
+
         } catch (error) {
-            console.error("Error:", error);
+            error.displayError(
+                "An error occured",
+                error,
+                function () {
+                    $('#errorOverlay').css('display', 'none');
+                }
+            );
         } finally {
             $('#loadingOverlay2').css('display', 'none');
         }
@@ -67,9 +88,17 @@ device = {
             // Hide the loader
             loadingOverlay.style.display = 'none';
 
-            console.log(result)
             if (result.isSuccessful) {
                 monitoring.login(result);
+            }
+            else {
+                error.displayError(
+                    "An error occured",
+                    "Invalid fingerprint",
+                    function () {
+                        $('#errorOverlay').css('display', 'none');
+                    }
+                );
             }
         } catch (error) {
             console.error("Error:", error);
@@ -106,6 +135,52 @@ monitoring = {
             } else {
                 console.log(result);
             }
+
+        } catch (error) {
+            console.error("Error:", error);
+        } finally {
+            $('#loadingOverlay').css('display', 'none');
+        }
+    }
+}
+
+fingerPrint = {
+    saveFingerPrint: async function (vars) {
+        $('#loadingOverlay').css('display', 'flex');
+        try {
+            loadingOverlay2.style.display = 'flex';
+            console.log({ positionNumber: vars.position, userId: vars.userId });
+            const response = await fetch("/Fingerprint/RegisterNew", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ positionNumber: vars.position, userId: vars.userId })
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+
+            if (result.isSuccessful) {
+                error.displayError(
+                    "Succses",
+                    "Fingerprint successfully saved.",
+                    function () {
+                        window.location.href = "/Device/Dashboard";
+                    }
+                );
+            } else {
+                error.displayError(
+                    "An error occured",
+                    "Invalid fingerprint",
+                    function () {
+                        $('#errorOverlay').css('display', 'none');
+                    }
+                );
+            } 
 
         } catch (error) {
             console.error("Error:", error);

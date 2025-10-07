@@ -8,9 +8,11 @@ namespace classroom_monitoring_system.Controllers
     public class FingerprintController : Controller
     {
         private readonly IBaseRepository<User> _user;
-        public FingerprintController(IBaseRepository<User> userRepository)
+        private readonly IBaseRepository<UserFingerprint> _userFingerprint;
+        public FingerprintController(IBaseRepository<User> userRepository, IBaseRepository<UserFingerprint> userFingerprint)
         {
             _user = userRepository;
+            _userFingerprint = userFingerprint;
         }
         public IActionResult AddFingerPrint()
         {
@@ -27,6 +29,29 @@ namespace classroom_monitoring_system.Controllers
                     .Cast<object>().ToList()
             };
             return View(editModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> RegisterNew([FromBody] FingerprintRequest request)
+        {
+            if (request.PositionNumber == null || request.UserId == null)
+            {
+                return Json(new { isSuccessful = false, message = "Invalid fingerprint." });
+            }
+
+            var newFingerprint = new UserFingerprint
+            {
+                UserId = Guid.Parse(request.UserId),
+                PositionNumber = request.PositionNumber
+            };
+            var result = _userFingerprint.Save(newFingerprint);
+
+            return Json(new { isSuccessful = true, message = "Succefully Saved" });
+        }
+
+        public class FingerprintRequest
+        {
+            public int PositionNumber { get; set; }
+            public string UserId { get; set; }
         }
     }
 }

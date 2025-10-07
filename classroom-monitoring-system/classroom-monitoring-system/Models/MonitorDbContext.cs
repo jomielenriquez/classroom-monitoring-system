@@ -105,14 +105,14 @@ public partial class MonitorDbContext : DbContext
 
         modelBuilder.Entity<UserFingerprint>(entity =>
         {
-            entity.HasNoKey();
+            entity.HasKey(e => e.UserFingerprintId);//.HasName("PK_UserFingerprint_UserFingerprintId");
 
+            entity.Property(e => e.UserFingerprintId).HasDefaultValueSql("(newid())");
             entity.Property(e => e.CreatedDate)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime");
-            entity.Property(e => e.UserFingerprintId).HasDefaultValueSql("(newid())");
 
-            entity.HasOne(d => d.User).WithMany()
+            entity.HasOne(d => d.User).WithMany(p => p.UserFingerprints)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_UserFingerprint_UserId");
