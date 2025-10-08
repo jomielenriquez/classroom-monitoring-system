@@ -1,0 +1,33 @@
+﻿@model classroom_monitoring_system.Models.FingerprintScreenModel
+
+<div class="card text-center">
+    <div class="card-header">
+        Professor Name : @Model.Attendance.Professor.FirstName @Model.Attendance.Professor.LastName
+    </div>
+    <div class="card-body">
+        <Custom:Form id="SaveRoom"
+                     submit-tag="Save Room"
+                     controller="FingerPrint"
+                     action="SaveRoom"
+                     cancel-redirect="">
+            <Custom:TextBox id="AttendanceId"
+                            label="AttendanceId"
+                            type="text"
+                            value="@Model.Attendance.AttendanceId"
+                            is-hidden="true"
+                            placeholder="">
+            </Custom:TextBox>
+            <Custom:Dropdown items="@Model.Rooms"
+                             id="RoomReassignmentId"
+                             label="Available Rooms"
+                             key-property="RoomId"
+                             value-property="RoomName"
+                             selected-value="@Model.Attendance.RoomReassignmentId"
+                             is-required="true">
+            </Custom:Dropdown>
+        </Custom:Form>
+    </div>
+    <div class="card-footer text-muted">
+        Select room to reassign
+    </div>
+</div>

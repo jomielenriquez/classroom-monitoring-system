@@ -1,0 +1,63 @@
+﻿@model classroom_monitoring_system.Models.Attendance
+<style>
+    .flatpickr-calendar {
+        width: 50% !important;
+    }
+</style>@* 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> *@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr@@4.6.9/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr@@4.6.9/dist/flatpickr.min.js"></script>
+
+<div class="card text-center">
+    <div class="card-header">
+        Name : @Model.Professor.FirstName @Model.Professor.LastName
+    </div>
+    <div class="card-body">
+        <Custom:Form id="GetTime"
+                     submit-tag="Set Time"
+                     controller="FingerPrint"
+                     action="SaveTime"
+                     cancel-redirect="">
+            <Custom:TextBox id="AttendanceId"
+                            label="AttendanceId"
+                            type="text"
+                            value="@Model.AttendanceId"
+                            is-hidden="true"
+                            placeholder="">
+            </Custom:TextBox>
+            <Custom:TextBox id="StartTime"
+                            label="Start Time"
+                            type="text"
+                            value="@((Model.StartTime ?? new TimeOnly(0, 0)).ToString("HH:mm"))"
+                            is-required="true">
+            </Custom:TextBox>
+            <Custom:TextBox id="EndTime"
+                            label="End time"
+                            type="time"
+                            value="@((Model.EndTime ?? new TimeOnly(0, 0)).ToString("HH:mm"))"
+                            placeholder="Enter code"
+                            is-required="true">
+            </Custom:TextBox>
+        </Custom:Form>
+    </div>
+   @*  <div class="card-footer text-muted">
+    </div> *@
+</div>
+<script>
+    flatpickr("#StartTime", {
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "H:i",   // 24-hour format
+      time_24hr: false,
+      minuteIncrement: 1
+    });
+    flatpickr("#EndTime", {
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "H:i",   // 24-hour format
+      time_24hr: false,
+      minuteIncrement: 1
+    });
+
+</script>

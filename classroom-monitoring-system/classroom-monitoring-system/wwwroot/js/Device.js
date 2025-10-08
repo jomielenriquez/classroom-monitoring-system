@@ -102,6 +102,16 @@ device = {
         }
     },
     verifyRoom: async function (vars) {
+        if (vars.roomId == null || vars.roomId == undefined || vars.roomId == "") {
+            error.displayError(
+                "An error occured",
+                "Please a room",
+                function () {
+                    $('#errorOverlay').css('display', 'none');
+                }
+            );
+            return;
+        }
         $('#loadingOverlay2').css('display', 'flex');
 
         try {
@@ -208,7 +218,9 @@ monitoring = {
                     "Success",
                     result.message,
                     function () {
-                        $('#errorOverlay').css('display', 'none');
+                        window.location.href =
+                            "/Fingerprint/Success?attendanceId=" +
+                            result.attendanceId;
                     }
                 );
             } else if (!result.isSuccessful) {
@@ -216,7 +228,9 @@ monitoring = {
                     "Error",
                     result.message,
                     function () {
-                        $('#errorOverlay').css('display', 'none');
+                        window.location.href =
+                            "/Fingerprint/GetTime?attendanceId=" +
+                            result.attendanceId;
                     }
                 );
             } else {

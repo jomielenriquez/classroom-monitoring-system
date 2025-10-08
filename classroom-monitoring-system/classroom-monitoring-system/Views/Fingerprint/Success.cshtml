@@ -1,0 +1,19 @@
+﻿@model classroom_monitoring_system.Models.Attendance
+
+<div class="card text-center">
+    <div class="card-header">
+        Attendance Save Successfully
+    </div>
+    <div class="card-body">
+        @Model.Professor.FirstName @Model.Professor.LastName
+        @Model.RoomSchedule.Subject.SubjectName
+        @Model.RoomSchedule.Room.RoomName
+    </div>
+    <div class="card-footer text-muted">
+        <a asp-action="Dashboard" 
+           asp-controller="Device" 
+           class="btn btn-secondary">
+            <i class="fa-solid fa-table-columns"></i> Dashboard
+        </a>
+    </div>
+</div>

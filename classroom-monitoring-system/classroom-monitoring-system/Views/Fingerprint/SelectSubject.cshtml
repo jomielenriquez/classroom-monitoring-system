@@ -1,0 +1,33 @@
+﻿@model classroom_monitoring_system.Models.FingerprintScreenModel
+
+<div class="card text-center">
+    <div class="card-header">
+        Professor Name : @Model.Attendance.Professor.FirstName @Model.Attendance.Professor.LastName
+    </div>
+    <div class="card-body">
+        <Custom:Form id="SelectSubject"
+                     submit-tag="Select Subject"
+                     controller="FingerPrint"
+                     action="SaveSubject"
+                     cancel-redirect="">
+            <Custom:TextBox id="AttendanceId"
+                            label="AttendanceId"
+                            type="text"
+                            value="@Model.Attendance.AttendanceId"
+                            is-hidden="true"
+                            placeholder="">
+            </Custom:TextBox>
+            <Custom:Dropdown items="@Model.Subject"
+                             id="SubjectId"
+                             label="Select Subject"
+                             key-property="SubjectId"
+                             value-property="SubjectName"
+                             selected-value="@Model.SelectedSubject"
+                             is-required="true">
+            </Custom:Dropdown>
+        </Custom:Form>
+    </div>
+    <div class="card-footer text-muted">
+        Select Subject
+    </div>
+</div>
