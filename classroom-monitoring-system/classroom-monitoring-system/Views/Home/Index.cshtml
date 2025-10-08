@@ -7,7 +7,74 @@
     var userId = User.FindFirstValue("Id");
 }
 
-@if(roles == "Admin"){}
+@if(roles == "Admin")
+{
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">Professor Attendance (This Week)</div>
+                <div class="card-body">
+                    <canvas id="attendanceChart" height="120"></canvas>
+                </div>
+            </div>
+        </div>
+        @* <div class="col">
+            <div class="card">
+                <div class="card-header">Users with no fingerprint enrolled</div>
+                <div class="card-body">
+
+                </div>
+            </div>
+        </div> *@
+    </div>
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Fetch data from your API endpoint
+                fetch('/Home/GetWeeklySummary')
+                    .then(response => response.json())
+                    .then(data => {
+                        const ctx = document.getElementById('attendanceChart').getContext('2d');
+
+                        new Chart(ctx, {
+                            type: 'bar', // or 'line', 'pie', etc.
+                            data: {
+                                labels: data.labels, // e.g., ["Mon", "Tue", "Wed", "Thu", "Fri"]
+                                datasets: [{
+                                    label: 'Attendance Count',
+                                    data: data.values, // e.g., [8, 10, 7, 12, 9]
+                                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'No. of Attendances'
+                                        }
+                                    },
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Day of the Week'
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    })
+                    .catch(err => console.error('Error loading chart:', err));
+            });
+        </script>
+
+    }
+}
 @if(roles == "Checker"){}
 @if(roles == "Professor")
 {

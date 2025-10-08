@@ -34,10 +34,10 @@ namespace classroom_monitoring_system.Controllers
                     u.RoomSchedules.Any(rs => rs.DateOfUse == currentDate)
                     )
                 .ToList();
-            var message = DraftSchedule(professors.SelectMany(p => p.RoomSchedules.Where(rs => rs.DateOfUse == currentDate)).ToList());
 
             foreach (var professor in professors)
             {
+                var message = DraftSchedule(professor.RoomSchedules.Where(rs => rs.DateOfUse == currentDate).ToList());
                 _emailService.SendEmail(
                     to: professor.Email,
                     subject: "Your Schedule for Today",
