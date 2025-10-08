@@ -20,7 +20,6 @@ namespace classroom_monitoring_system.Controllers
         [Authorize]
         public IActionResult Index()
         {
-            var adminpass = LoginRepository.ComputeMd5Hash("admin123");
             var users = _userRepository.GetAll().ToList();
             return View(users);
         }

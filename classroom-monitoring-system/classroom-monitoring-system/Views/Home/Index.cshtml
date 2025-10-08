@@ -1,10 +1,59 @@
 ﻿@model List<classroom_monitoring_system.Models.User>
+@using System.Security.Claims
 @{
     ViewData["Title"] = "Home Page";
+
+    var roles = User.FindFirstValue(ClaimTypes.Role);
+    var userId = User.FindFirstValue("Id");
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>The site is still on development</p>
-    <img src="https://www.demar.eel.usp.br/assets/images/clipart/en-construction.gif" width="60%"/>
-</div>
+@if(roles == "Admin"){}
+@if(roles == "Checker"){}
+@if(roles == "Professor")
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <div id="calendar"></div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const calendarEl = document.getElementById('calendar');
+
+                const calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'timeGridDay',
+                    selectable: true,
+                    nowIndicator: true,
+                    allDaySlot: false,
+                    slotMinTime: "06:00:00",
+                    slotMaxTime: "21:00:00",
+                    height: "auto",
+
+                    events: function (fetchInfo, successCallback, failureCallback) {
+                        const roomId = "@userId"; // if you have it in your model
+                        fetch(`/RoomSchedule/GetSchedulesByProfId?profId=${roomId}`)
+                            .then(response => response.json())
+                            .then(data => successCallback(data))
+                            .catch(err => failureCallback(err));
+                    },
+                    eventContent: function(arg) {
+                        const e = arg.event;
+                        const note = e.extendedProps.note ? `<small>${e.extendedProps.note}</small>` : '';
+                        const room = e.extendedProps.room ? `<div><i>${e.extendedProps.room}</i></div>` : '';
+                        const time = e.extendedProps.time ? `<div><i>${e.extendedProps.time}</i></div>` : '';
+                        const subject = e.extendedProps.subject ? `<div><i>${e.extendedProps.subject}</i></div>` : '';
+                        return { html: `<b>${e.title}</b>${room}${note}${time}<b>${subject}<b/>` };
+                    },
+                    select: function (info) {
+                    }
+                });
+
+                calendar.render();
+            });
+        </script>
+    }
+
+}

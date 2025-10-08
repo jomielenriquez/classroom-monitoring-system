@@ -274,6 +274,15 @@
                            style="font-size: 2rem; text-align:center"><i class="fa-solid fa-book"></i></a>
                     </li>
                 }
+                else if (roles == "Checker")
+                {
+                    <li>
+                        <a asp-controller="Attendance" 
+                            asp-action="AttendanceListScreen" 
+                            title="Attendance" class="nav-link @(currentController == "Attendance"? "active" : "")"
+                            style="font-size: 2rem; text-align:center"><i class="fa-regular fa-clock"></i></a>
+                    </li>
+                }
             </ul>
             <div class="mt-auto">
                 <a href="/User/UserEdit?UserId=@userId" class="nav-link" style="font-size: 2rem;">

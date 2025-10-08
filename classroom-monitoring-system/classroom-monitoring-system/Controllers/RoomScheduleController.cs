@@ -74,6 +74,31 @@ namespace classroom_monitoring_system.Controllers
 
             return Ok(schedules);
         }
+        [HttpGet]
+        public IActionResult GetSchedulesByProfId(Guid profId)
+        {
+            var scheds = profId != Guid.Empty
+                ? _roomSchedule.GetByConditionAndIncludes(x =>
+                    x.ProfessorUserId == profId, "ProfessorUser", "Room", "Subject")
+                : _roomSchedule.GetByConditionAndIncludes(x =>
+                    x.RoomScheduleId != null, "ProfessorUser", "Room", "Subject");
+
+            var schedules = scheds
+                .Select(r => new
+                {
+                    id = r.RoomScheduleId,
+                    title = r.ProfessorUser != null ? r.ProfessorUser.FirstName + " " + r.ProfessorUser.LastName : "Reserved",
+                    start = r.DateOfUse.ToDateTime(r.StartTime),
+                    end = r.DateOfUse.ToDateTime(r.EndTime),
+                    note = r.Note,
+                    room = r.Room.RoomName + " [" + r.Room.RoomCode + "]",
+                    time = r.StartTime.ToString("hh:mm tt") + " - " + r.EndTime.ToString("hh:mm tt"),
+                    subject = r.Subject.SubjectName
+                })
+                .ToList();
+
+            return Ok(schedules);
+        }
         [Authorize(Roles = "Admin")]
         public IActionResult RoomScheduleEdit(RoomSchedule roomSchedule)
         {

@@ -1,0 +1,84 @@
+﻿@model List<classroom_monitoring_system.Models.Attendance>
+@{
+    ViewData["Title"] = "Attendance List Screen";
+}
+<link rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<link rel="stylesheet"
+      href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css">
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
+
+<div class="card mb-3">
+    <div class="card-header">Attendance Report</div>
+    <div class="card-body">
+        <table id="attendanceTable" class="display nowrap" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Subject</th>
+                    <th>Room</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var attendance in Model)
+                {
+                    <tr>
+                        <td>@attendance.Professor.FirstName @attendance.Professor.FirstName</td>
+                        <td>@attendance.RoomSchedule?.Subject.SubjectName</td>
+                        <td>@attendance.RoomSchedule?.Room.RoomName</td>
+                        <td>@((attendance.DateOfUse ?? DateOnly.FromDateTime(DateTime.Now)).ToString("yyyy-MM-dd"))</td>
+                        <td>
+                            @((attendance.StartTime ?? new TimeOnly(0, 0)).ToString("HH:mm")) - @((attendance.EndTime ?? new TimeOnly(0, 0)).ToString("HH:mm"))
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#attendanceTable').DataTable({
+            paging: true,
+            searching: true,
+            ordering: true,
+            responsive: true,
+            dom: 'Bfrtip', // Add export buttons
+            buttons: [
+                {
+                    extend: 'pdfHtml5',
+                    text: 'Export to PDF',
+                    orientation: 'landscape',
+                    pageSize: 'A4',
+                    title: 'Classroom Report',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: 'Export to Excel'
+                },
+                {
+                    extend: 'csvHtml5',
+                    text: 'Export to CSV'
+                },
+                {
+                    extend: 'print',
+                    text: 'Print Table'
+                }
+            ]
+        });
+    });
+</script>
