@@ -7,7 +7,7 @@
     var userId = User.FindFirstValue("Id");
 }
 
-@if(roles == "Admin")
+@if (roles == "Admin" || roles == "Checker")
 {
     <div class="row">
         <div class="col">
