@@ -33,7 +33,7 @@
                 @foreach(var attendance in Model)
                 {
                     <tr>
-                        <td>@attendance.Professor.FirstName @attendance.Professor.FirstName</td>
+                        <td>@attendance.Professor.FirstName @attendance.Professor.LastName</td>
                         <td>@attendance.RoomSchedule?.Subject.SubjectName</td>
                         <td>@attendance.RoomSchedule?.Room.RoomName</td>
                         <td>@((attendance.DateOfUse ?? DateOnly.FromDateTime(DateTime.Now)).ToString("yyyy-MM-dd"))</td>
