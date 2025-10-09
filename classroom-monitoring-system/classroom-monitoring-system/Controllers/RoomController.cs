@@ -37,10 +37,10 @@ namespace classroom_monitoring_system.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
-        public int DeleteRoom([FromBody] Guid[] selected)
+        public string DeleteRoom([FromBody] Guid[] selected)
         {
             var result = _roomService.DeleteRoom(selected);
-            return result.DeleteCount;
+            return result.Message;
         }
 
         [Authorize(Roles = "Admin")]

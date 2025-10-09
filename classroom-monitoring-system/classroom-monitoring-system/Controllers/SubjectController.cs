@@ -34,10 +34,10 @@ namespace classroom_monitoring_system.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
-        public int DeleteSubject([FromBody] Guid[] selected)
+        public string DeleteSubject([FromBody] Guid[] selected)
         {
             var result = _subject.DeleteSubject(selected);
-            return result.DeleteCount;
+            return result.Message;
         }
         [Authorize(Roles = "Admin")]
         public IActionResult SubjectEdit(Subject subject)

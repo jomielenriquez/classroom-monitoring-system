@@ -40,10 +40,10 @@ namespace classroom_monitoring_system.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
-        public int DeleteUser([FromBody] Guid[] selected)
+        public string DeleteUser([FromBody] Guid[] selected)
         {
             var result = _userService.DeleteUser(selected);
-            return result.DeleteCount;
+            return result.Message;
         }
 
         [Authorize(Roles = "Admin")]
