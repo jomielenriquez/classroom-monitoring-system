@@ -1,15 +1,19 @@
 ﻿using classroom_monitoring_system.Interface;
 using classroom_monitoring_system.Models;
 using Newtonsoft.Json;
+using System;
+using System.Linq;
 using System.Linq.Expressions;
 namespace classroom_monitoring_system.Repository
 {
     public class RoomScheduleRepository
     {
         private readonly IBaseRepository<RoomSchedule> _roomScheduleRepository;
-        public RoomScheduleRepository(IBaseRepository<RoomSchedule> roomScheduleRepository)
+        private readonly MonitorDbContext _context;
+        public RoomScheduleRepository(IBaseRepository<RoomSchedule> roomScheduleRepository, MonitorDbContext context)
         {
             _roomScheduleRepository = roomScheduleRepository;
+            _context = context;
         }
         public Results<RoomSchedule> GetRoomById(Guid roomScheduleId)
         {
@@ -88,6 +92,17 @@ namespace classroom_monitoring_system.Repository
             result.DeleteCount = 0;
             if (roomScheduleIds != null && roomScheduleIds.Length > 0)
             {
+                _context.Attendances
+                    .Where(x => roomScheduleIds.Contains(x.RoomScheduleId ?? Guid.Empty))
+                    .ToList();
+
+                if (_context.Attendances.Any(x => roomScheduleIds.Contains(x.RoomScheduleId ?? Guid.Empty)))
+                {
+                    result.IsSuccess = false;
+                    result.Message = "Cannot delete selected schedule(s) because it is associated with attendance records.";
+                    return result;
+                }
+
                 int deletedCount = _roomScheduleRepository.DeleteWithIds(roomScheduleIds, "RoomScheduleId");
                 result.DeleteCount = deletedCount;
                 result.Message = $"{deletedCount} row(s) deleted successfully.";

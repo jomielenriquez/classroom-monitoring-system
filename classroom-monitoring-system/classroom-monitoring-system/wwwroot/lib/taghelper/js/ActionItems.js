@@ -26,7 +26,7 @@
                 //dataType: 'json', // Type of data expected back from the server
                 data: JSON.stringify(selected),
                 success: function (data) {
-                    alert(data + " record(s) deleted.");
+                    alert(data);
                     console.log(data);
                     location.reload();
                 },

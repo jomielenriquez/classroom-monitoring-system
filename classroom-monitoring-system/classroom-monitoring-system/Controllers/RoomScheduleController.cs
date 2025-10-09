@@ -19,9 +19,10 @@ namespace classroom_monitoring_system.Controllers
         public RoomScheduleController(IBaseRepository<RoomSchedule> roomScheduleRepository,
             IBaseRepository<Room> roomRespository, IBaseRepository<User> userRepository,
             IBaseRepository<UserRole> userRoleRepository, 
-            IBaseRepository<Subject> subjectRepository)
+            IBaseRepository<Subject> subjectRepository,
+            MonitorDbContext context)
         {
-            _roomScheduleService = new RoomScheduleRepository(roomScheduleRepository);
+            _roomScheduleService = new RoomScheduleRepository(roomScheduleRepository, context);
             _roomRespository = roomRespository;
             _userRepository = userRepository;
             _userRoleRepository = userRoleRepository;
@@ -46,10 +47,10 @@ namespace classroom_monitoring_system.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
-        public int DeleteRoomSchedule([FromBody] Guid[] selected)
+        public string DeleteRoomSchedule([FromBody] Guid[] selected)
         {
             var result = _roomScheduleService.DeleteRoomSchedule(selected);
-            return result.DeleteCount;
+            return result.Message;
         }
         // GET: api/roomschedules?roomId=123&start=2025-10-04&end=2025-10-05
         [HttpGet]
